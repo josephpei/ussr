@@ -1,7 +1,7 @@
 import { app, globalShortcut } from 'electron'
 import logger from './logger'
 import { switchSystemProxy } from './proxy'
-import { toggleWindow, showWindow, sendData } from '../background'
+import { toggleWindow, showWindow, sendData } from './window'
 import { appConfig$ } from './data'
 import { showNotification } from './notification'
 import { EVENT_APP_SHOW_PAGE } from '../shared/events'

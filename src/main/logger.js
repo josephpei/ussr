@@ -2,13 +2,14 @@ import { app } from 'electron'
 import log from 'electron-log'
 import { join } from 'path'
 import { ensureDirSync } from 'fs-extra'
-import * as Sentry from '@sentry/electron'
-
-if (process.env.NODE_ENV === 'production') {
-  Sentry.init({
-    dsn: 'https://39bffe7372d14000bd5d30e50a27c388@sentry.io/1359858',
-  })
-}
+// import * as Sentry from '@sentry/electron'
+//
+// https://github.com/getsentry/sentry-electron/issues/142
+// if (process.env.NODE_ENV === 'production') {
+//   Sentry.init({
+//     dsn: 'https://39bffe7372d14000bd5d30e50a27c388@sentry.io/1359858',
+//   })
+// }
 
 const userPath = app.getPath('userData')
 const logFolder = join(userPath, 'logs')

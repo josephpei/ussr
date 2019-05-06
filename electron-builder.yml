@@ -1,0 +1,9 @@
+
+linux:
+  synopsis: ussr
+  description: SSR Client
+  target:
+    - AppImage
+  maintainer: Joseph Pei
+  category: Network
+

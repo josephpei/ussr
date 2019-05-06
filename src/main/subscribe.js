@@ -4,7 +4,7 @@
 import { readFile, writeFile } from './promisify'
 import { subscribeUpdateFile } from './bootstrap'
 import { appConfig$ } from './data'
-import { sendData } from '../background'
+import { sendData } from './window'
 import logger from './logger'
 import { EVENT_SUBSCRIBE_UPDATE_MAIN } from '../shared/events'
 
