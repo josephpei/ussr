@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { EVENT_APP_NOTIFY_RENDERER } from './shared/events'
+import { EVENT_APP_NOTIFY_RENDERER } from '../shared/events'
 
 /**
  * 显示HTML5通知

@@ -56,9 +56,9 @@
 import { ipcRenderer } from 'electron'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { hideWindow } from '../../ipc'
-import Config from '../../shared/ssr'
-import { groupConfigs } from '../../shared/utils'
-import { EVENT_CONFIG_COPY_CLIPBOARD } from '../../shared/events'
+import Config from '../../../shared/ssr'
+import { groupConfigs } from '../../../shared/utils'
+import { EVENT_CONFIG_COPY_CLIPBOARD } from '../../../shared/events'
 
 // 避免因上/下移动分组/配置而导致index改变后选中项不是group的问题
 let preventIndexAffect = false

@@ -2,8 +2,8 @@ import { ipcRenderer } from 'electron'
 import store from './store'
 import { showNotification, showHtmlNotification } from './notification'
 // import scanQrcode from './qrcode/scan-screenshot'
-import * as events from './shared/events'
-import { loadConfigsFromString } from './shared/ssr'
+import * as events from '../shared/events'
+import { loadConfigsFromString } from '../shared/ssr'
 
 /**
  * ipc-render事件

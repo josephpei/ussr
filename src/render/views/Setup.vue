@@ -36,12 +36,12 @@ import { ipcRenderer } from 'electron'
 import { join } from 'path'
 import { mapState, mapMutations } from 'vuex'
 import { openDialog } from '../ipc'
-import { isSSRPathAvaliable } from '../shared/utils'
+import { isSSRPathAvaliable } from '../../shared/utils'
 import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'
 import {
   EVENT_SSR_DOWNLOAD_RENDERER,
   EVENT_SSR_DOWNLOAD_MAIN,
-} from '../shared/events'
+} from '../../shared/events'
 import Dot from '../components/Dot'
 
 export default {

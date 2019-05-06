@@ -23,7 +23,6 @@ ipcMain
     // 页面初始化
     let stored
     try {
-      console.log('xxxxxxxxxx')
       stored = readJsonSync(appConfigPath)
       mergeConfig(stored)
     } catch (e) {

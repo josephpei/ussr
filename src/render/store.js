@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import defaultConfig from './shared/config'
+import defaultConfig from '../shared/config'
 import {
   merge,
   clone,
@@ -9,8 +9,8 @@ import {
   getUpdatedKeys,
   isConfigEqual,
   somePromise,
-} from './shared/utils'
-import Config from './shared/ssr'
+} from '../shared/utils'
+import Config from '../shared/ssr'
 import { syncConfig } from './ipc'
 import {
   STORE_KEY_FEATURE,
@@ -107,7 +107,7 @@ export default new Vuex.Store({
       defaultSSRDownloadDir: '',
     },
     view: {
-      page: featureReaded ? views[1] : views[0],
+      page: featureReaded ? views[2] : views[0],
       tab: 'common',
       // 是否激活当前页面的主要操作
       active: false,
