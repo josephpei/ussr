@@ -4,6 +4,7 @@ import * as handler from './tray-handler'
 import { checkUpdate } from './updater'
 import { groupConfigs } from '../shared/utils'
 import { isMac, isWin, isOldMacVersion } from '../shared/env'
+import path from 'path'
 import {
   disabledTray,
   enabledTray,
@@ -228,9 +229,10 @@ function setTrayIcon(appConfig) {
  */
 export default function renderTray(appConfig) {
   // 生成tray
-  tray = new Tray(nativeImage.createEmpty())
+  // tray = new Tray(nativeImage.createEmpty())
+  tray = new Tray(path.join(__static, 'icon.png'))
   updateTray(appConfig)
-  setTrayIcon(appConfig)
+  // setTrayIcon(appConfig)
   tray.on(isMac || isWin ? 'double-click' : 'click', handler.showMainWindow)
 }
 
@@ -256,8 +258,8 @@ appConfig$.subscribe(data => {
     ) {
       updateTray(appConfig)
     }
-    if (['enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {
-      setTrayIcon(appConfig)
-    }
+    // if (['enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {
+    //   setTrayIcon(appConfig)
+    // }
   }
 })

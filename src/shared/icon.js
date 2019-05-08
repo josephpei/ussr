@@ -2,6 +2,7 @@ import { join } from 'path'
 import { nativeImage } from 'electron'
 import { isMac } from './env'
 
+/* global __static */
 function getImage(name, template = true, highlight = false) {
   return nativeImage.createFromPath(
     join(

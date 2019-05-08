@@ -6,9 +6,8 @@ module.exports = {
       .entry('app')
       .clear()
       .add('./src/render/main.js')
-      .end();
-    config.resolve.alias
-      .set("@", path.join(__dirname, "./src/render"))
+      .end()
+    config.resolve.alias.set('@', path.join(__dirname, './src/render'))
   },
   pluginOptions: {
     electronBuilder: {
@@ -16,7 +15,7 @@ module.exports = {
         files: [
           {
             filter: ['**/*'],
-          }
+          },
         ],
         asar: true,
       },
