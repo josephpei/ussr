@@ -73,9 +73,9 @@ export const winToolPath = _winToolPath
 export const macToolPath = path.resolve(appConfigDir, 'proxy_conf_helper')
 
 // try fix linux dismiss bug
-if (isLinux) {
-  process.env.XDG_CURRENT_DESKTOP = 'Unity'
-}
+// if (isLinux) {
+//   process.env.XDG_CURRENT_DESKTOP = 'Unity'
+// }
 
 // 在mac上执行sudo命令
 async function sudoMacCommand(command) {

@@ -107,7 +107,7 @@ export default new Vuex.Store({
       defaultSSRDownloadDir: '',
     },
     view: {
-      page: featureReaded ? views[2] : views[0],
+      page: featureReaded ? views[1] : views[0],
       tab: 'common',
       // 是否激活当前页面的主要操作
       active: false,

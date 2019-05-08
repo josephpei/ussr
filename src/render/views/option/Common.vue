@@ -67,7 +67,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { isSSRPathAvaliable, debounce } from '../../shared/utils'
+import { isSSRPathAvaliable, debounce } from '../../../shared/utils'
 import { openDialog } from '../../ipc'
 export default {
   data() {

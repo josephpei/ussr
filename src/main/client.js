@@ -13,7 +13,7 @@ let child
  * 运行shell命令并写入到日志中
  * @param {*String} command 待执行的shell命令
  */
-export function runCommand(command, params) {
+export function runCommand (command, params) {
   if (command && params.length) {
     const commandStr = `${command} ${params.join(' ')}`
     logger.info(
@@ -32,7 +32,7 @@ export function runCommand(command, params) {
  * @param {*String} ssrPath local.py的路径
  * @param {*[Number|String]} localPort 本地共享端口
  */
-export async function run(appConfig) {
+export async function run (appConfig) {
   const listenHost = appConfig.shareOverLan ? '0.0.0.0' : '127.0.0.1'
   // 先结束之前的
   await stop()
@@ -48,7 +48,9 @@ export async function run(appConfig) {
   }
   const config = appConfig.configs[appConfig.index]
   // 参数
-  const params = [path.join(appConfig.ssrPath, 'local.py')]
+  // const params = [path.join(appConfig.ssrPath, 'local.py')]
+  const command = path.join(appConfig.ssrPath, 'ssr-local')
+  const params = []
   params.push('-s')
   params.push(config.server)
   params.push('-p')
@@ -79,13 +81,13 @@ export async function run(appConfig) {
     params.push('-t')
     params.push(config.timeout)
   }
-  runCommand('python', params)
+  runCommand(command, params)
 }
 
 /**
  * 结束command的后台运行
  */
-export function stop(force = false) {
+export function stop (force = false) {
   if (child && child.pid) {
     logger.log('Kill client')
     return new Promise((resolve, reject) => {
@@ -125,7 +127,7 @@ export function stop(force = false) {
  * 根据配置运行SSR命令
  * @param {Object} appConfig 应用配置
  */
-export function runWithConfig(appConfig) {
+export function runWithConfig (appConfig) {
   if (
     appConfig.ssrPath &&
     appConfig.enable &&

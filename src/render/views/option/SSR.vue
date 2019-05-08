@@ -1,8 +1,8 @@
 <template>
   <div class="options-container px-2 pb-2 scroll-y">
-    <Alert-alert v-if="showTip" type="info" closable @on-close="closeTip"
-      >双击可修改，修改后回车可保存，esc可取消修改。</Alert-alert
-    >
+    <Alert v-if="showTip" type="info" closable @on-close="closeTip">
+      双击可修改，修改后回车可保存，esc可取消修改。
+    </Alert>
     <fieldset class="px-1 py-1">
       <legend class="ml-1">SSR加密方法</legend>
       <edit-tag

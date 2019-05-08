@@ -1,8 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import { net } from 'electron'
 import Base64 from 'urlsafe-base64'
-import { loadConfigsFromString } from './ssr'
+import {loadConfigsFromString} from './ssr'
 
 const STRING_PROTOTYPE = '[object String]'
 const NUMBER_PROTOTYPE = '[object Number]'
@@ -123,10 +122,10 @@ export function configMerge(to, from, appendArray = false) {
 export function getUpdatedKeys(appConfig = {}, targetConfig) {
   return Object.keys(targetConfig).filter(key => {
     // 如果原对象类型和新的类型不一致直接返回true
+    const value = targetConfig[key]
     if (protoString(appConfig[key]) !== protoString(value)) {
       return true
     }
-    const value = targetConfig[key]
     switch (protoString(value)) {
       case OBJECT_PROTOTYPE:
         return getUpdatedKeys(appConfig[key], value).length
@@ -261,7 +260,8 @@ export function groupConfigs(configs, selectedIndex) {
  * @param {*String} path local.py所在的目录
  */
 export function isSSRPathAvaliable(folderPath) {
-  const localPyPath = path.join(folderPath, 'local.py')
+  // const localPyPath = path.join(folderPath, 'local.py')
+  const localPyPath = path.join(folderPath, 'ssr-local')
   console.log(localPyPath, fs.existsSync(localPyPath))
   return fs.existsSync(localPyPath)
 }
@@ -285,10 +285,13 @@ export function somePromise(promiseArr) {
  * @param {String} url 请求的路径
  */
 export function request(url, fromRenderer) {
-  let _net = net
+  let _net
   if (fromRenderer) {
-    const { remote } = require('electron')
-    const { net } = remote.require('electron')
+    // const { remote } = require('electron')
+    // const { net } = remote.require('electron')
+    _net = require('electron').remote.net
+  } else {
+    const { net } = require('electron')
     _net = net
   }
   return new Promise((resolve, reject) => {

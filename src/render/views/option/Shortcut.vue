@@ -6,15 +6,15 @@
         :key="funcName"
       >
         <Row type="flex" :gutter="24">
-          <Col :span="5">
+          <i-col :span="5">
             <Checkbox
               v-model="form.globalShortcuts[funcName].enable"
               @on-change="update('globalShortcuts', funcName)"
             >
               {{ funcText }}
             </Checkbox>
-          </Col>
-          <Col :span="8">
+          </i-col>
+          <i-col :span="8">
             <Input
               v-model="form.globalShortcuts[funcName].key"
               readonly
@@ -22,20 +22,20 @@
               @on-keydown="e => keydown(e, 'globalShortcuts', funcName)"
               @on-keyup="e => keyup(e, 'globalShortcuts', funcName)"
             />
-          </Col>
+          </i-col>
         </Row>
       </FormItem>
       <FormItem v-if="isLinux" class="flex-1">
         <Row type="flex" :gutter="24">
-          <Col :span="5">
+          <i-col :span="5">
             <Checkbox
               v-model="form.windowShortcuts.toggleMenu.enable"
               @on-change="update('windowShortcuts', 'toggleMenu')"
             >
               切换窗口菜单显隐
             </Checkbox>
-          </Col>
-          <Col :span="8">
+          </i-col>
+          <i-col :span="8">
             <i-input
               v-model="form.windowShortcuts.toggleMenu.key"
               readonly
@@ -43,7 +43,7 @@
               @on-keydown="e => keydown(e, 'windowShortcuts', 'toggleMenu')"
               @on-keyup="e => keyup(e, 'windowShortcuts', 'toggleMenu')"
             />
-          </Col>
+          </i-col>
         </Row>
       </FormItem>
     </Form>
@@ -52,15 +52,13 @@
 <script>
 import { remote } from 'electron'
 import { mapActions } from 'vuex'
-import { changeBind } from '../../main/shortcut'
-import { debounce } from '../../shared/utils'
-import { isLinux } from '../../shared/env'
-import Col from 'iview/src'
+import { changeBind } from '../../shortcut'
+import { debounce } from '../../../shared/utils'
+import { isLinux } from '../../../shared/env'
 
 const globalShortcut = remote.globalShortcut
 
 export default {
-  components: { Col },
   data() {
     const appConfig = this.$store.state.appConfig
     return {

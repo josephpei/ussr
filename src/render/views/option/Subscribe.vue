@@ -74,8 +74,7 @@ import {
   request,
   isSubscribeContentValid,
   somePromise,
-} from '../../shared/utils'
-import Select from 'iview/src'
+} from '../../../shared/utils'
 
 const URL_REGEX = /^https?:\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/
 // 单位对应的小时倍数
@@ -85,7 +84,6 @@ const unitMap = {
   week: 168,
 }
 export default {
-  components: { Select },
   data() {
     return {
       url: '',

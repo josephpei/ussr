@@ -14,40 +14,22 @@
       <ButtonGroup class="w-6r mr-1 flex-inline">
         <Button class="flex-1" type="primary" @click="create">添加</Button>
         <Dropdown trigger="click" placement="top-end">
-          <Button
-            class="ivu-dropdown-btn-trigger"
-            type="primary"
-            icon="md-arrow-dropdown"
-          ></Button>
+          <Button class="ivu-dropdown-btn-trigger" type="primary" icon="md-arrow-dropdown"></Button>
           <DropdownMenu slot="list">
-            <DropdownItem @click.native="copyFromClipboard"
-              >从剪切板导入</DropdownItem
-            >
-            <DropdownItem @click.native="toSubscribe"
-              >添加订阅地址</DropdownItem
-            >
+            <DropdownItem @click.native="copyFromClipboard">从剪切板导入</DropdownItem>
+            <DropdownItem @click.native="toSubscribe">添加订阅地址</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </ButtonGroup>
-      <Poptip
-        v-if="selectedGroupName"
-        confirm
-        title="确定删除该分组下所有节点？"
-        @on-ok="removeGroup"
-      >
+      <Poptip v-if="selectedGroupName" confirm title="确定删除该分组下所有节点？" @on-ok="removeGroup">
         <Button class="w-6r" :disabled="disabled.remove">删除</Button>
       </Poptip>
-      <Button v-else class="w-6r" :disabled="disabled.remove" @click="remove"
-        >删除</Button
-      >
+      <Button v-else class="w-6r" type="primary" @click="applyNode">应用</Button>
     </div>
     <div class="flex mt-1 flex-jc-center">
-      <Button class="w-6r mr-1" :disabled="disabled.up" @click="updown(1)"
-        >上移</Button
-      >
-      <Button class="w-6r" :disabled="disabled.down" @click="updown(-1)"
-        >下移</Button
-      >
+      <Button class="w-6r mr-1" :disabled="disabled.remove" @click="remove">删除</Button>
+      <Button class="w-6r mr-1" :disabled="disabled.up" @click="updown(1)">上移</Button>
+      <Button class="w-6r" :disabled="disabled.down" @click="updown(-1)">下移</Button>
     </div>
   </div>
 </template>
@@ -63,7 +45,7 @@ import { EVENT_CONFIG_COPY_CLIPBOARD } from '../../../shared/events'
 // 避免因上/下移动分组/配置而导致index改变后选中项不是group的问题
 let preventIndexAffect = false
 export default {
-  data() {
+  data () {
     return {
       buttonProps: {
         type: 'ghost',
@@ -75,13 +57,14 @@ export default {
         : '',
       // 记录分组名
       selectedGroupName: '',
+      selectedNode: {},
     }
   },
   computed: {
     ...mapState(['appConfig', 'editingGroup']),
     ...mapGetters(['selectedConfig']),
     // 配置节点
-    configs() {
+    configs () {
       if (
         this.appConfig &&
         this.appConfig.configs &&
@@ -97,11 +80,11 @@ export default {
       return []
     },
     // 分组后的配置节点
-    groupedConfigs() {
+    groupedConfigs () {
       return groupConfigs(this.configs)
     },
     // 分组后的ssr节点
-    groupedNodes() {
+    groupedNodes () {
       return Object.keys(this.groupedConfigs).map(groupName => {
         const node = {
           title: groupName,
@@ -113,14 +96,14 @@ export default {
       })
     },
     // 选中的节点数据
-    selectedConfigNode() {
+    selectedConfigNode () {
       if (this.selectedConfigId) {
         return this.configs.find(config => config.id === this.selectedConfigId)
       }
       return null
     },
     // 按钮禁用状态
-    disabled() {
+    disabled () {
       if (!this.selectedConfigId && !this.selectedGroupName) {
         return { remove: true, up: true, down: true }
       }
@@ -159,7 +142,7 @@ export default {
     },
   },
   watch: {
-    'appConfig.index'(v) {
+    'appConfig.index' (v) {
       if (preventIndexAffect) {
         preventIndexAffect = false
       } else {
@@ -169,13 +152,13 @@ export default {
           : ''
       }
     },
-    'editingGroup.updated'(v) {
+    'editingGroup.updated' (v) {
       if (v) {
         this.updateEditingGroup({ updated: false })
         this.selectedGroupName = this.editingGroup.title
       }
     },
-    selectedConfigId() {
+    selectedConfigId () {
       this.setCurrentConfig(this.selectedConfigNode)
     },
   },
@@ -188,7 +171,7 @@ export default {
     ]),
     ...mapActions(['updateConfigs', 'updateConfig']),
     // 复制节点并带上title和选中参数
-    cloneConfig(config, selected) {
+    cloneConfig (config, selected) {
       return {
         title: `${config.remarks || config.server} (${config.server}:${
           config.server_port
@@ -198,13 +181,20 @@ export default {
       }
     },
     // 设置节点选中状态
-    setSelected(group, config) {
+    setSelected (group, config) {
       this.selectedGroupName = group
       this.selectedConfigId = config
     },
     // 点击节点时
-    onSelect(selection) {
-      const node = selection[0]
+    onSelect (selection) {
+      // 第二次点击是取消选择，这个bug曾经修复，又重新复现
+      // https://github.com/iview/iview/issues/1533
+      if (selection.length > 0) {
+        this.selectedNode = selection[0]
+      } else {
+        this.selectedNode.selected = true
+      }
+      const node = this.selectedNode
       if (!node.children) {
         // 选中配置项
         this.setSelected('', node.id)
@@ -219,7 +209,8 @@ export default {
       }
     },
     // 双击选中该节点
-    onNodeDBClick(selection) {
+    // TODO: 新版 iview tree 没有双击事件
+    onNodeDBClick (selection) {
       const node = selection[0]
       this.updateConfig({
         index: this.appConfig.configs.findIndex(
@@ -229,8 +220,19 @@ export default {
       this.resetState()
       hideWindow()
     },
+    applyNode () {
+      const node = this.$refs.tree.getSelectedNodes()[0]
+      if (!node.children) {
+        this.updateConfig({
+          index: this.appConfig.configs.findIndex(
+            config => config.id === node.id
+          ),
+        })
+        this.resetState()
+      }
+    },
     // flat分组
-    flatNodeGroups(groups) {
+    flatNodeGroups (groups) {
       groups = groups || this.groupedNodes
       const flatArr = []
       groups.forEach(group => {
@@ -239,15 +241,15 @@ export default {
       return flatArr
     },
     // 从剪切板导入
-    copyFromClipboard() {
+    copyFromClipboard () {
       ipcRenderer.send(EVENT_CONFIG_COPY_CLIPBOARD)
     },
     // 跳转到订阅管理页面
-    toSubscribe() {
+    toSubscribe () {
       this.updateView({ page: 'Options', tab: 'subscribes', active: true })
     },
     // 新增
-    create() {
+    create () {
       const newConfig = new Config(this.selectedConfigNode)
       const clone = this.appConfig.configs.slice()
       clone.push(newConfig)
@@ -256,7 +258,7 @@ export default {
       this.updateEditingGroup({ show: false })
     },
     // 删除分组
-    removeGroup() {
+    removeGroup () {
       const clone = this.appConfig.configs.slice()
       this.updateConfigs(
         clone.filter(config => config.group !== this.selectedGroupName)
@@ -265,7 +267,7 @@ export default {
       this.updateEditingGroup({ show: false })
     },
     // 删除
-    remove() {
+    remove () {
       const clone = this.appConfig.configs.slice()
       const index = clone.findIndex(
         config => config.id === this.selectedConfigId
@@ -277,7 +279,7 @@ export default {
       this.setSelected('', next ? next.id : prev ? prev.id : '')
     },
     // 上/下移 direction = 1 上移 其它 下移
-    updown(direction = 1) {
+    updown (direction = 1) {
       const clone = this.groupedNodes.slice()
       if (this.selectedGroupName) {
         // 分组上/下移
@@ -309,19 +311,29 @@ export default {
 </script>
 <style lang="stylus">
 @import '../../assets/styles/variable';
-.panel-nodes
-  width 12.5rem
-  .empty-tree
-    display flex
-    justify-content center
-    align-items center
-  .node-tree
-    border 1px solid $color-border
-    border-radius 4px
-    overflow-x hidden
-    overflow-y auto
-  .ivu-tree-children
-    .ivu-tree-children
-      .ivu-tree-arrow
-        display none
+
+.panel-nodes {
+  width: 12.5rem;
+
+  .empty-tree {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .node-tree {
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .ivu-tree-children {
+    .ivu-tree-children {
+      .ivu-tree-arrow {
+        display: none;
+      }
+    }
+  }
+}
 </style>
