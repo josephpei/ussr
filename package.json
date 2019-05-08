@@ -54,9 +54,7 @@
       "plugin:vue/essential",
       "@vue/prettier"
     ],
-    "rules": {
-      "space-before-function-paren": ["error", "always"]
-    },
+    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
     }
