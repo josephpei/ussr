@@ -9,5 +9,4 @@ linux:
     - AppImage
   maintainer: Joseph Pei
   category: Network
-  icon: icon.png
 

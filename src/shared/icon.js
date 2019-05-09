@@ -3,10 +3,11 @@ import { nativeImage } from 'electron'
 import { isMac } from './env'
 
 /* global __static */
-function getImage(name, template = true, highlight = false) {
+function getImage (name, template = true, highlight = false) {
   return nativeImage.createFromPath(
     join(
       __static,
+      '/assets/',
       `${name}${
         isMac && template ? (highlight ? 'Highlight' : 'Template') : ''
       }.png`
@@ -23,7 +24,7 @@ export let enabledHighlightTray
 export let pacHighlightTray
 export let globalHighlightTray
 
-export function init() {
+export function init () {
   notificationIcon = getImage('notification', false, false)
   disabledTray = getImage('disabled', false)
   enabledTray = getImage('enabled')

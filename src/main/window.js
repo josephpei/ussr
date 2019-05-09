@@ -9,10 +9,11 @@ let readyPromise
 /**
  * 创建主视图
  */
-export function createWindow () {
+export function createWindow() {
   if (process.platform === 'darwin') {
     app.dock.hide()
   }
+  /* global __static */
   mainWindow = new BrowserWindow({
     height: 440,
     width: 800,
@@ -21,7 +22,7 @@ export function createWindow () {
     minimizable: false,
     maximizable: false,
     show: true,
-    icon: path.join(__dirname, '/icon/icon.png'),
+    icon: path.join(__static, 'logo.png'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV !== 'development',
@@ -58,14 +59,14 @@ export function createWindow () {
 /**
  * 返回主视图
  */
-export function getWindow () {
+export function getWindow() {
   return mainWindow
 }
 
 /**
  * 显示主视图
  */
-export function showWindow () {
+export function showWindow() {
   if (mainWindow) {
     mainWindow.show()
   }
@@ -74,7 +75,7 @@ export function showWindow () {
 /**
  * 隐藏主视图
  */
-export function hideWindow () {
+export function hideWindow() {
   isQuiting(false)
   if (mainWindow) {
     mainWindow.hide()
@@ -84,7 +85,7 @@ export function hideWindow () {
 /**
  * 切换窗体显隐
  */
-export function toggleWindow () {
+export function toggleWindow() {
   if (mainWindow) {
     if (mainWindow.isVisible()) {
       mainWindow.hide()
@@ -97,7 +98,7 @@ export function toggleWindow () {
 /**
  * 销毁主视图
  */
-export function destroyWindow () {
+export function destroyWindow() {
   if (mainWindow) {
     mainWindow.destroy()
     mainWindow = null
@@ -107,7 +108,7 @@ export function destroyWindow () {
 /**
  * 向主窗口发送消息
  */
-export async function sendData (channel, ...args) {
+export async function sendData(channel, ...args) {
   if (mainWindow) {
     await readyPromise
     mainWindow.webContents.send(channel, ...args)
@@ -119,7 +120,7 @@ export async function sendData (channel, ...args) {
 /**
  * 打开开发者工具
  */
-export async function openDevtool () {
+export async function openDevtool() {
   if (mainWindow) {
     await readyPromise
     mainWindow.webContents.openDevTools()

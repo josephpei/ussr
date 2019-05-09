@@ -22,7 +22,7 @@ let tray
  * @param {*Array<Object>} configs ssr配置集合
  * @param {*Number} selectedIndex 选中的ssr配置的索引
  */
-function generateConfigSubmenus(configs, selectedIndex) {
+function generateConfigSubmenus (configs, selectedIndex) {
   const groups = groupConfigs(configs, selectedIndex)
   const submenus = Object.keys(groups).map(key => {
     const groupedConfigs = groups[key]
@@ -36,7 +36,7 @@ function generateConfigSubmenus(configs, selectedIndex) {
           label: `${config.remarks}(${config.server}:${config.server_port})`,
           type: 'checkbox',
           checked: config.checked,
-          click(e) {
+          click (e) {
             const index = configs.findIndex(config => config.id === e.id)
             if (index === selectedIndex) {
               // 点击的是当前节点
@@ -65,7 +65,7 @@ function generateConfigSubmenus(configs, selectedIndex) {
  * 根据应用配置生成菜单
  * @param {Object} appConfig 应用配置
  */
-function generateMenus(appConfig) {
+function generateMenus (appConfig) {
   const base = [
     { label: '主界面', click: handler.showManagePanel },
     {
@@ -156,7 +156,7 @@ function generateMenus(appConfig) {
 }
 
 // 切换代理
-export function changeProxy(e, mode, appConfig) {
+export function changeProxy (e, mode, appConfig) {
   if (mode === appConfig.sysProxyMode) {
     e.checked = true
   } else {
@@ -165,7 +165,7 @@ export function changeProxy(e, mode, appConfig) {
 }
 
 // 根据配置显示tray tooltip
-function getTooltip(appConfig) {
+function getTooltip (appConfig) {
   if (!appConfig.enable) {
     return 'ShadowsocksR客户端：应用未启动'
   }
@@ -198,7 +198,7 @@ function getTooltip(appConfig) {
  * 更新任务栏菜单
  * @param {Object} appConfig 应用配置
  */
-function updateTray(appConfig) {
+function updateTray (appConfig) {
   const menus = generateMenus(appConfig)
   const contextMenu = Menu.buildFromTemplate(menus)
   tray.setContextMenu(contextMenu)
@@ -206,8 +206,9 @@ function updateTray(appConfig) {
 }
 
 // 根据应用状态显示不同的图标
-function setTrayIcon(appConfig) {
+function setTrayIcon (appConfig) {
   if (appConfig.enable) {
+    console.log('fuck bj fuck bj')
     if (appConfig.sysProxyMode === 1) {
       tray.setImage(pacTray)
       isMac && tray.setPressedImage(pacHighlightTray)
@@ -219,6 +220,7 @@ function setTrayIcon(appConfig) {
       isMac && tray.setPressedImage(enabledHighlightTray)
     }
   } else {
+    console.log('fuck fuck')
     tray.setImage(disabledTray)
     isMac && tray.setPressedImage(disabledTray)
   }
@@ -227,19 +229,20 @@ function setTrayIcon(appConfig) {
 /**
  * 渲染托盘图标和托盘菜单
  */
-export default function renderTray(appConfig) {
+export default function renderTray (appConfig) {
   // 生成tray
-  // tray = new Tray(nativeImage.createEmpty())
-  tray = new Tray(path.join(__static, 'icon.png'))
+  /* global __static */
+  tray = new Tray(nativeImage.createEmpty())
+  // tray = new Tray(path.join(__static, 'icon.png'))
   updateTray(appConfig)
-  // setTrayIcon(appConfig)
+  setTrayIcon(appConfig)
   tray.on(isMac || isWin ? 'double-click' : 'click', handler.showMainWindow)
 }
 
 /**
  * 销毁托盘
  */
-export function destroyTray() {
+export function destroyTray () {
   if (tray) {
     tray.destroy()
   }
@@ -258,8 +261,8 @@ appConfig$.subscribe(data => {
     ) {
       updateTray(appConfig)
     }
-    // if (['enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {
-    //   setTrayIcon(appConfig)
-    // }
+    if (['enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {
+      setTrayIcon(appConfig)
+    }
   }
 })
