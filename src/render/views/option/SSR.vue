@@ -63,11 +63,12 @@
 import { mapState, mapMutations } from 'vuex'
 import EditTag from '../../components/EditTag'
 import { STORE_KEY_SSR_TIP } from '../../constants'
-const ls = window.localStorage
+// const ls = window.localStorage
+import ls from '../../store'
 export default {
   data() {
     return {
-      showTip: !ls.getItem(STORE_KEY_SSR_TIP),
+      showTip: !ls.get(STORE_KEY_SSR_TIP),
       method: '',
       protocol: '',
       obfs: '',

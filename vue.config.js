@@ -14,7 +14,7 @@ module.exports = {
       builderOptions: {
         files: [
           {
-            filter: ['**/*'],
+            filter: ['**/*', 'build/icon.*'],
           },
         ],
         asar: true,

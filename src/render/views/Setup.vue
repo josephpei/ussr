@@ -35,6 +35,7 @@
 import { ipcRenderer } from 'electron'
 import { join } from 'path'
 import { mapState, mapMutations } from 'vuex'
+import ls from '../store'
 import { openDialog } from '../ipc'
 import { isSSRPathAvaliable } from '../../shared/utils'
 import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'
@@ -47,7 +48,7 @@ import Dot from '../components/Dot'
 export default {
   data() {
     return {
-      autoDownload: localStorage.getItem(STORE_KEY_AUTO_DOWNLOAD) === '1',
+      autoDownload: ls.get(STORE_KEY_AUTO_DOWNLOAD) === '1',
       // 手动下载
       manualDownload: false,
       // 自动模式下载出错

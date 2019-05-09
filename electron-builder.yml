@@ -1,4 +1,7 @@
 
+appId: io.josephpei.ussr
+productName: ussr
+copyright: Copyright © year Joseph Pei <josephpei@gmail.com>
 linux:
   synopsis: ussr
   description: SSR Client
@@ -6,4 +9,5 @@ linux:
     - AppImage
   maintainer: Joseph Pei
   category: Network
+  icon: icon.png
 

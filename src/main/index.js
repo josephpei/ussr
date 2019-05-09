@@ -10,12 +10,7 @@ import { stopPacServer } from './pac'
 import { stopHttpProxyServer } from './http-proxy'
 import { stop as stopCommand, runWithConfig } from './client'
 import { setProxyToNone } from './proxy'
-import {
-  createWindow,
-  showWindow,
-  getWindow,
-  destroyWindow,
-} from './window'
+import { createWindow, showWindow, getWindow, destroyWindow } from './window'
 import { startTask, stopTask } from './subscribe'
 import logger from './logger'
 import { clearShortcuts } from './shortcut'

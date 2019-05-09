@@ -18,6 +18,7 @@ import {
   STORE_KEY_SSR_PROTOCOLS,
   STORE_KEY_SSR_OBFSES,
 } from './constants'
+import Store from 'electron-store'
 
 Vue.use(Vuex)
 
@@ -30,13 +31,18 @@ const views = ['Feature', 'Setup', 'ManagePanel', 'Options']
 // 编辑组的名称
 let groupTitleBak = ''
 // 功能页面是否已展示过
-const ls = window.localStorage
-const featureReaded = !!ls.getItem(STORE_KEY_FEATURE)
+export const ls = new Store()
+// window.localStorage
+// const featureReaded = !!ls.getItem(STORE_KEY_FEATURE)
+const featureReaded = !!ls.get(STORE_KEY_FEATURE)
 
 // 初始化读取存储，如果没有存储则保持
-const storedMethods = ls.getItem(STORE_KEY_SSR_METHODS)
-const storedProtocols = ls.getItem(STORE_KEY_SSR_PROTOCOLS)
-const storedObfses = ls.getItem(STORE_KEY_SSR_OBFSES)
+// const storedMethods = ls.getItem(STORE_KEY_SSR_METHODS)
+// const storedProtocols = ls.getItem(STORE_KEY_SSR_PROTOCOLS)
+// const storedObfses = ls.getItem(STORE_KEY_SSR_OBFSES)
+const storedMethods = ls.get(STORE_KEY_SSR_METHODS)
+const storedProtocols = ls.get(STORE_KEY_SSR_PROTOCOLS)
+const storedObfses = ls.get(STORE_KEY_SSR_OBFSES)
 
 let methods
 let protocols
@@ -67,7 +73,7 @@ if (storedMethods) {
     'chacha20',
     'chacha20-ietf',
   ]
-  ls.setItem(STORE_KEY_SSR_METHODS, JSON.stringify(methods))
+  ls.set(STORE_KEY_SSR_METHODS, JSON.stringify(methods))
 }
 // ssr protocols
 if (storedProtocols) {
@@ -82,7 +88,7 @@ if (storedProtocols) {
     'auth_chain_a',
     'auth_chain_b',
   ]
-  ls.setItem(STORE_KEY_SSR_PROTOCOLS, JSON.stringify(protocols))
+  ls.set(STORE_KEY_SSR_PROTOCOLS, JSON.stringify(protocols))
 }
 // ssr obfses
 if (storedObfses) {
@@ -96,7 +102,7 @@ if (storedObfses) {
     'tls1.2_ticket_auth',
     'tls1.2_ticket_fastauth',
   ]
-  ls.setItem(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
+  ls.set(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
 }
 
 export default new Vuex.Store({
@@ -183,15 +189,15 @@ export default new Vuex.Store({
     },
     updateMethods(state, methods) {
       state.methods = methods
-      ls.setItem(STORE_KEY_SSR_METHODS, JSON.stringify(methods))
+      ls.set(STORE_KEY_SSR_METHODS, JSON.stringify(methods))
     },
     updateProtocols(state, protocols) {
       state.protocols = protocols
-      ls.setItem(STORE_KEY_SSR_PROTOCOLS, JSON.stringify(protocols))
+      ls.set(STORE_KEY_SSR_PROTOCOLS, JSON.stringify(protocols))
     },
     updateObfses(state, obfses) {
       state.obfses = obfses
-      ls.setItem(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
+      ls.set(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
     },
   },
   actions: {

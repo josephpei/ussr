@@ -1,8 +1,8 @@
 import { app, BrowserWindow } from 'electron'
 import { isQuiting } from './data'
 import logger from './logger'
-import {createProtocol} from "vue-cli-plugin-electron-builder/lib";
-
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import path from 'path'
 
 let mainWindow
 let readyPromise
@@ -20,8 +20,12 @@ export function createWindow () {
     resizable: false,
     minimizable: false,
     maximizable: false,
-    show: false,
-    webPreferences: { nodeIntegration: true, webSecurity: process.env.NODE_ENV !== 'development' }
+    show: true,
+    icon: path.join(__dirname, '/icon/icon.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      webSecurity: process.env.NODE_ENV !== 'development',
+    },
   })
   mainWindow.setMenu(null)
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -34,7 +38,7 @@ export function createWindow () {
     mainWindow.loadURL('app://./index.html')
   }
   // hide to tray when window closed
-  mainWindow.on('close', (e) => {
+  mainWindow.on('close', e => {
     // 当前不是退出APP的时候才去隐藏窗口
     if (!isQuiting()) {
       e.preventDefault()
