@@ -2,6 +2,10 @@
 
 Fork from [electron-ssr](https://github.com/erguotou520/electron-ssr)
 
+SSR [ssr-n](https://github.com/ShadowsocksR-Live/shadowsocksr-native)
+
+Select folder has file `ssr-local`
+
 Just for study!
 
 ## Project setup

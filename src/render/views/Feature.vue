@@ -15,7 +15,7 @@
       <i-col class="col flex flex-column flex-ai-center flex-jc-center">
         <icon-open />
         <b class="font-18 my-1">开源</b>
-        <p>ssr和electron-ssr源代码均开放</p>
+        <p>ssr和ussr源代码均开放</p>
       </i-col>
     </Row>
     <div class="flex flex-ai-center mt-64">

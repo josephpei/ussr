@@ -99,21 +99,19 @@ export default function renderMenu(appConfig) {
             {
               label: '项目主页',
               click: () => {
-                handler.openURL('https://github.com/erguotou520/electron-ssr')
+                handler.openURL('https://github.com/josephpei/ussr')
               },
             },
             {
               label: 'Bug反馈',
               click: () => {
-                handler.openURL(
-                  'https://github.com/erguotou520/electron-ssr/issues'
-                )
+                handler.openURL('https://github.com/josephpei/ussr/issues')
               },
             },
             {
               label: '捐赠',
               click: () => {
-                handler.openURL('https://github.com/erguotou520/donate')
+                handler.openURL('https://github.com/josephpei/donate')
               },
             },
             { label: '打开开发者工具', click: handler.openDevtool },

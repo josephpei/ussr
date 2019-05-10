@@ -70,7 +70,7 @@ export function versionCheck(oldVersion, newVersion) {
 export function checkUpdate(force = false) {
   if (isLinux && !/\.AppImage&/.test(exePath)) {
     request(
-      'https://raw.githubusercontent.com/erguotou520/electron-ssr/master/package.json'
+      'https://raw.githubusercontent.com/josephpei/ussr/master/package.json'
     ).then(data => {
       const remotePkg = JSON.parse(data)
       const currentVersion = app.getVersion()
@@ -80,9 +80,7 @@ export function checkUpdate(force = false) {
           `最新版本为 v${remotePkg.version}，点击前往下载。`,
           '通知',
           () => {
-            shell.openExternal(
-              'https://github.com/erguotou520/electron-ssr/releases'
-            )
+            shell.openExternal('https://github.com/josephpei/ussr/releases')
           }
         )
       } else if (force) {
