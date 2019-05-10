@@ -22,13 +22,14 @@ export function createWindow() {
     minimizable: false,
     maximizable: false,
     show: true,
+    autoHideMenuBar: true,
     icon: path.join(__static, 'logo.png'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV !== 'development',
     },
   })
-  mainWindow.setMenu(null)
+  mainWindow.setMenuBarVisibility(false)
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
