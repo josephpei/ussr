@@ -16,7 +16,7 @@ const func = {
  * @param {String} name 要注册的快捷键的事件
  * @param {String} key 要注册的快捷键的按键
  */
-function registerShortcut(name, key) {
+function registerShortcut (name, key) {
   if (!key) return false
   logger.info(`Register shortcut: ${name}, ${key}`)
   const ret = globalShortcut.register(key, func[name])
@@ -30,7 +30,7 @@ function registerShortcut(name, key) {
  * 取消注册快捷键
  * @param {String} key 要取消注册的快捷键的按键
  */
-function unregisterShortcut(key) {
+function unregisterShortcut (key) {
   if (key) {
     globalShortcut.unregister(key)
     logger.info(`Unregister shortcut: ${key}`)
@@ -40,7 +40,7 @@ function unregisterShortcut(key) {
 /**
  * 取消所有全局快捷键的注册
  */
-export function clearShortcuts() {
+export function clearShortcuts () {
   globalShortcut.unregisterAll()
 }
 
@@ -50,7 +50,7 @@ export function clearShortcuts() {
  * @param {String} oldKey 旧的快捷键
  * @param {String} newKey 新的快捷键
  */
-function switchRegister(funcName, shortcutEnable, oldKey, newKey) {
+function switchRegister (funcName, shortcutEnable, oldKey, newKey) {
   unregisterShortcut(oldKey)
   if (shortcutEnable) {
     registerShortcut(funcName, newKey)

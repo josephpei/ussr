@@ -128,7 +128,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // 更新应用配置
-    updateConfig(state, [targetConfig, sync = false]) {
+    updateConfig (state, [targetConfig, sync = false]) {
       const changed = getUpdatedKeys(state.appConfig, targetConfig)
       if (changed.length) {
         const extractConfig = {}
@@ -143,33 +143,33 @@ export default new Vuex.Store({
       }
     },
     // 更新应用元数据
-    updateMeta(state, targetMeta) {
+    updateMeta (state, targetMeta) {
       merge(state.meta, targetMeta)
       console.log('meta updated: ', targetMeta)
     },
     // 更改页面视图
-    updateView(state, targetView) {
+    updateView (state, targetView) {
       merge(state.view, targetView)
     },
     // 返回上一个页面
-    prevView(state) {
+    prevView (state) {
       state.view.page = views[views.indexOf(state.view.page) - 1]
     },
     // 下一个页面
-    nextView(state) {
+    nextView (state) {
       state.view.page = views[views.indexOf(state.view.page) + 1]
     },
     // 设置选中的配置
-    setCurrentConfig(state, ssrConfig) {
+    setCurrentConfig (state, ssrConfig) {
       merge(state.editingConfig, ssrConfig)
       merge(state.editingConfigBak, ssrConfig)
     },
     // 更新编辑项备份
-    updateEditingBak(state) {
+    updateEditingBak (state) {
       merge(state.editingConfigBak, state.editingConfig)
     },
     // 重置状态
-    resetState(state) {
+    resetState (state) {
       merge(state.editingConfig, state.editingConfigBak)
       merge(state.view, {
         page: views.indexOf(state.view.page) >= 2 ? views[2] : state.view.page,
@@ -179,29 +179,29 @@ export default new Vuex.Store({
       state.editingGroup.title = groupTitleBak
     },
     // 更新当前编辑的组
-    updateEditingGroup(state, newGroup) {
+    updateEditingGroup (state, newGroup) {
       merge(state.editingGroup, newGroup)
       groupTitleBak = newGroup.title
     },
     // 更新编辑项
-    updateEditing(state, config) {
+    updateEditing (state, config) {
       merge(state.editingConfig, config)
     },
-    updateMethods(state, methods) {
+    updateMethods (state, methods) {
       state.methods = methods
       ls.set(STORE_KEY_SSR_METHODS, JSON.stringify(methods))
     },
-    updateProtocols(state, protocols) {
+    updateProtocols (state, protocols) {
       state.protocols = protocols
       ls.set(STORE_KEY_SSR_PROTOCOLS, JSON.stringify(protocols))
     },
-    updateObfses(state, obfses) {
+    updateObfses (state, obfses) {
       state.obfses = obfses
       ls.set(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
     },
   },
   actions: {
-    initConfig({ commit }, { config, meta }) {
+    initConfig ({ commit }, { config, meta }) {
       commit('updateConfig', [config])
       commit('updateMeta', meta)
       if (meta.version) {
@@ -215,7 +215,7 @@ export default new Vuex.Store({
         commit('updateView', { page: views[2] })
       }
     },
-    updateConfig({ getters, commit }, targetConfig) {
+    updateConfig ({ getters, commit }, targetConfig) {
       let index
       if (targetConfig.configs && getters.selectedConfig) {
         index = targetConfig.configs.findIndex(
@@ -228,7 +228,7 @@ export default new Vuex.Store({
           : targetConfig
       commit('updateConfig', [correctConfig, true])
     },
-    updateConfigs({ dispatch }, _configs) {
+    updateConfigs ({ dispatch }, _configs) {
       const configs = _configs.map(config => {
         const _clone = clone(config)
         Object.keys(_clone).forEach(key => {
@@ -241,7 +241,7 @@ export default new Vuex.Store({
       })
       dispatch('updateConfig', { configs })
     },
-    addConfigs({ state, dispatch }, configs) {
+    addConfigs ({ state, dispatch }, configs) {
       if (configs.length) {
         dispatch('updateConfig', {
           configs: [...state.appConfig.configs, ...configs],
@@ -249,7 +249,7 @@ export default new Vuex.Store({
       }
     },
     // 更新所有订阅服务器
-    updateSubscribes({ state, dispatch }, updateSubscribes) {
+    updateSubscribes ({ state, dispatch }, updateSubscribes) {
       // 要更新的订阅服务器
       updateSubscribes = updateSubscribes || state.appConfig.serverSubscribes
       // 累计更新节点数

@@ -13,7 +13,7 @@ httpShutdown.extend()
  * 开启HTTP代理服务
  * @param {Object} appConfig 应用配置
  */
-export function startHttpProxyServer(appConfig, isProxyStarted) {
+export function startHttpProxyServer (appConfig, isProxyStarted) {
   if (isProxyStarted && appConfig.httpProxyEnable) {
     const host = appConfig.shareOverLan ? '0.0.0.0' : '127.0.0.1'
     isHostPortValid(host, appConfig.httpProxyPort)
@@ -50,7 +50,7 @@ export function startHttpProxyServer(appConfig, isProxyStarted) {
 /**
  * 关闭HTTP代理服务
  */
-export async function stopHttpProxyServer() {
+export async function stopHttpProxyServer () {
   if (server && server.listening) {
     return new Promise((resolve, reject) => {
       server.shutdown(err => {

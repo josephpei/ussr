@@ -72,6 +72,6 @@ ipcMain
  * 将main进程的错误在renderer进程显示出来
  * @param {String|Object} err 错误内容
  */
-export function showMainError(err) {
+export function showMainError (err) {
   sendData(events.EVENT_APP_ERROR_MAIN, err)
 }

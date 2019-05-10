@@ -9,7 +9,7 @@ let showLinuxMenu = false
 /**
  * 渲染菜单
  */
-export default function renderMenu(appConfig) {
+export default function renderMenu (appConfig) {
   // mac需要加上默认的一些菜单，否则没法复制粘贴
   let template
   if (isMac) {
@@ -126,7 +126,7 @@ export default function renderMenu(appConfig) {
 /**
  * 切换是否显示menu
  */
-export function toggleMenu() {
+export function toggleMenu () {
   if (isLinux) {
     if (Menu.getApplicationMenu()) {
       showLinuxMenu = false

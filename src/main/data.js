@@ -17,7 +17,7 @@ let isFromRenderer = false
 export let currentConfig
 
 // 读取配置
-async function read() {
+async function read () {
   try {
     return await readJson(appConfigPath)
   } catch (e) {
@@ -26,7 +26,7 @@ async function read() {
 }
 
 // 应用起步后初始化
-async function init() {
+async function init () {
   await bootstrap
   const stored = await read()
   mergeConfig(stored)
@@ -48,7 +48,7 @@ const source = Observable.create(observe => {
 })
 
 // 当前是否已选择某节点，即socks代理是否选中并启用
-export function isProxyStarted(appConfig) {
+export function isProxyStarted (appConfig) {
   return !!(
     appConfig.enable &&
     appConfig.configs &&
@@ -60,7 +60,7 @@ export function isProxyStarted(appConfig) {
  * 统一使用该接口从外部更新应用配置
  * @param {Object} targetConfig 要更新的配置
  */
-export function updateAppConfig(
+export function updateAppConfig (
   targetConfig,
   fromRenderer = false,
   forceAppendArray = false
@@ -85,7 +85,7 @@ export function updateAppConfig(
  * 新增单/多个配置
  * @param {Array} configs 要添加的配置数组
  */
-export function addConfigs(configs) {
+export function addConfigs (configs) {
   updateAppConfig(
     {
       configs: currentConfig.configs.concat(
@@ -100,7 +100,7 @@ export function addConfigs(configs) {
 export const appConfig$ = source.multicast(subject).refCount()
 
 // 传参用于设定是退出应用还是关闭窗口 不传参表示返回当前状态
-export function isQuiting(target) {
+export function isQuiting (target) {
   if (target !== undefined) {
     _isQuiting = target
   } else {

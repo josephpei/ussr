@@ -24,7 +24,7 @@ let isProxyChanged = false
  * 运行命令
  * @param {String} command 待运行的命令
  */
-function runCommand(command) {
+function runCommand (command) {
   if (command) {
     isProxyChanged = true
     try {
@@ -38,7 +38,7 @@ function runCommand(command) {
 /**
  * 设置代理为空, force表示强制设置，否则根据isProxyChanged字段判断是否需要设置为空
  */
-export function setProxyToNone(force = true) {
+export function setProxyToNone (force = true) {
   if (force || isProxyChanged) {
     let command
     if (isWin && pathExistsSync(winToolPath)) {
@@ -55,7 +55,7 @@ export function setProxyToNone(force = true) {
 /**
  * 设置代理为全局
  */
-export function setProxyToGlobal(host, port) {
+export function setProxyToGlobal (host, port) {
   let command
   if (isWin && pathExistsSync(winToolPath)) {
     command = `${winToolPath} global ${host}:${port}`
@@ -70,7 +70,7 @@ export function setProxyToGlobal(host, port) {
 /**
  * 设置代理为PAC代理
  */
-export function setProxyToPac(pacUrl) {
+export function setProxyToPac (pacUrl) {
   let command
   if (isWin && pathExistsSync(winToolPath)) {
     command = `${winToolPath} pac ${pacUrl}`
@@ -82,7 +82,7 @@ export function setProxyToPac(pacUrl) {
   runCommand(command)
 }
 
-function setProxyByMode(mode) {
+function setProxyByMode (mode) {
   if (mode === 0) {
     setProxyToNone()
   } else if (mode === 1) {
@@ -95,14 +95,14 @@ function setProxyByMode(mode) {
 /**
  * 切换系统代理
  */
-export function switchSystemProxy() {
+export function switchSystemProxy () {
   const nextMode = (currentConfig.sysProxyMode + 1) % 3
   updateAppConfig({ sysProxyMode: nextMode })
   setProxyByMode(nextMode)
 }
 
 // 启用代理
-export function startProxy(mode) {
+export function startProxy (mode) {
   if (mode === undefined) {
     mode = currentConfig.sysProxyMode
   }

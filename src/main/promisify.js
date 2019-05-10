@@ -1,10 +1,10 @@
 import { readFile as _readFile, writeFile as _writeFIle } from 'fs'
 import child from 'child_process'
 
-function promisify(fn) {
-  return function() {
+function promisify (fn) {
+  return function () {
     return new Promise((resolve, reject) => {
-      fn(...arguments, function() {
+      fn(...arguments, function () {
         if (arguments[0] instanceof Error) {
           reject(arguments[0])
         } else {
@@ -15,7 +15,7 @@ function promisify(fn) {
   }
 }
 
-export async function exec(cmd, options = {}) {
+export async function exec (cmd, options = {}) {
   return new Promise((resolve, reject) => {
     child.exec(cmd, options, (err, stdout, stderr) => {
       if (err) {

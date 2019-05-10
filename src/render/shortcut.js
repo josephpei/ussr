@@ -5,7 +5,7 @@ const func = {
   toggleMenu,
 }
 
-export function init(appConfig) {
+export function init (appConfig) {
   Object.keys(appConfig.windowShortcuts).forEach(funcName => {
     if (appConfig.windowShortcuts[funcName].enable) {
       Mousetrap.bind(
@@ -16,7 +16,7 @@ export function init(appConfig) {
   })
 }
 
-export function changeBind(funcName, oldKey, newKey) {
+export function changeBind (funcName, oldKey, newKey) {
   Mousetrap.unbind(oldKey)
   Mousetrap.bind(newKey, func[funcName])
 }

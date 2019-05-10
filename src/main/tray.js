@@ -4,7 +4,6 @@ import * as handler from './tray-handler'
 import { checkUpdate } from './updater'
 import { groupConfigs } from '../shared/utils'
 import { isMac, isWin, isOldMacVersion } from '../shared/env'
-import path from 'path'
 import {
   disabledTray,
   enabledTray,

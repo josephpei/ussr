@@ -19,7 +19,7 @@ httpShutdown.extend()
 /**
  * 下载pac文件
  */
-export async function downloadPac(force = false) {
+export async function downloadPac (force = false) {
   await bootstrapPromise
   const pacExisted = await pathExists(pacPath)
   if (force || !pacExisted) {
@@ -32,7 +32,7 @@ export async function downloadPac(force = false) {
   }
 }
 
-function readPac() {
+function readPac () {
   return new Promise(resolve => {
     if (!pacContent) {
       resolve(readFile(pacPath))
@@ -45,7 +45,7 @@ function readPac() {
 /**
  * pac server
  */
-export async function serverPac(appConfig, isProxyStarted) {
+export async function serverPac (appConfig, isProxyStarted) {
   if (isProxyStarted) {
     const host = currentConfig.shareOverLan ? '0.0.0.0' : '127.0.0.1'
     const port =
@@ -111,7 +111,7 @@ export async function serverPac(appConfig, isProxyStarted) {
 /**
  * 关闭pac服务
  */
-export async function stopPacServer() {
+export async function stopPacServer () {
   if (pacServer && pacServer.listening) {
     return new Promise((resolve, reject) => {
       pacServer.shutdown(err => {

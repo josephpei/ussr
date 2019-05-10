@@ -3,7 +3,7 @@ import { dialog as _dialog, remote } from 'electron'
 
 const dialog = _dialog || remote.dialog
 
-function choose(title, filters, isFile = true, isSave = false, defaultPath) {
+function choose (title, filters, isFile = true, isSave = false, defaultPath) {
   const path = dialog[isSave ? 'showSaveDialog' : 'showOpenDialog']({
     title,
     defaultPath,
@@ -26,9 +26,9 @@ function choose(title, filters, isFile = true, isSave = false, defaultPath) {
   return null
 }
 
-export function chooseFile(title, filters, defaultPath) {
+export function chooseFile (title, filters, defaultPath) {
   return choose(title, filters, true, false, defaultPath)
 }
-export function chooseSavePath(title, filters, defaultPath) {
+export function chooseSavePath (title, filters, defaultPath) {
   return choose(title, filters, true, true, defaultPath)
 }

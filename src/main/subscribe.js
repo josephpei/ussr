@@ -18,7 +18,7 @@ let _timeout
  * @param {Object} appConfig 应用配置
  * @param {Boolean} forceUpdate 是否强制更新
  */
-export async function startTask(appConfig, forceUpdate = false) {
+export async function startTask (appConfig, forceUpdate = false) {
   stopTask()
   if (appConfig.autoUpdateSubscribes && appConfig.serverSubscribes.length) {
     if (forceUpdate) {
@@ -41,7 +41,7 @@ export async function startTask(appConfig, forceUpdate = false) {
 }
 
 // 间隔多久开始下一次更新，用下一次间隔时间减去当前时间
-function timeout(nextUpdateTime, intervalTime, appConfig) {
+function timeout (nextUpdateTime, intervalTime, appConfig) {
   _timeout = setTimeout(() => {
     update(appConfig)
     interval(intervalTime, appConfig)
@@ -49,14 +49,14 @@ function timeout(nextUpdateTime, intervalTime, appConfig) {
 }
 
 // 往后的更新都按照interval来进行
-function interval(intervalTime, appConfig) {
+function interval (intervalTime, appConfig) {
   _interval = setInterval(() => {
     update(appConfig)
   }, intervalTime)
 }
 
 // 保存最近一次的更新时间
-async function saveUpdateTime() {
+async function saveUpdateTime () {
   const date = new Date()
   lastUpdateTime = date
   logger.info('last update time: %s', lastUpdateTime)
@@ -64,18 +64,18 @@ async function saveUpdateTime() {
 }
 
 // 发起更新
-async function update(appConfig) {
+async function update (appConfig) {
   await saveUpdateTime()
   updateSubscribes()
 }
 
 // 更新订阅服务器
-export function updateSubscribes() {
+export function updateSubscribes () {
   sendData(EVENT_SUBSCRIBE_UPDATE_MAIN)
 }
 
 // 结束更新任务
-export function stopTask() {
+export function stopTask () {
   if (_timeout) {
     clearTimeout(_timeout)
   }

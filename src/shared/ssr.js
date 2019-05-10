@@ -1,15 +1,15 @@
 import Base64 from 'urlsafe-base64'
 import { generateID, isNumber, isObject } from './utils'
 
-export function encode(str) {
+export function encode (str) {
   return Base64.encode(Buffer.from(str, 'utf-8'))
 }
 
-export function decode(str) {
+export function decode (str) {
   return Base64.decode(str).toString('utf-8')
 }
 
-function merge(ssr, target) {
+function merge (ssr, target) {
   if (isObject(target)) {
     Object.keys(target).forEach(key => {
       if (ssr[key] !== undefined) {
@@ -20,7 +20,7 @@ function merge(ssr, target) {
 }
 
 export default class Config {
-  constructor(config) {
+  constructor (config) {
     this.server = '127.0.0.1'
     this.server_port = 8388
     this.password = '0'
@@ -36,14 +36,14 @@ export default class Config {
     this.enable = true
     Object.defineProperty(this, 'remarks_base64', {
       enumerable: true,
-      get() {
+      get () {
         return this.remarks ? encode(this.remarks) : ''
       },
-      set() {},
+      set () {},
     })
   }
 
-  isValid() {
+  isValid () {
     return !!(
       this.server &&
       this.server_port &&
@@ -54,7 +54,7 @@ export default class Config {
     )
   }
 
-  getSSRLink() {
+  getSSRLink () {
     const required = [
       this.server,
       this.server_port,
@@ -73,7 +73,7 @@ export default class Config {
     return link
   }
 
-  setSSRLink(link) {
+  setSSRLink (link) {
     if (link) {
       const [valid, requiredSplit, otherSplit] = isSSRLinkValid(link)
       if (valid) {
@@ -100,7 +100,7 @@ export default class Config {
     return this
   }
 
-  getSSLink() {
+  getSSLink () {
     const link = `${this.method}:${this.password}@${this.server}:${
       this.server_port
     }`
@@ -108,7 +108,7 @@ export default class Config {
     return `ss://${encoded}${this.remarks ? '#' + this.remarks : ''}`
   }
 
-  setSSLink(link) {
+  setSSLink (link) {
     if (link) {
       const [valid, split2, split3, remark] = isSSLinkValid(link)
       if (valid) {
@@ -126,7 +126,7 @@ export default class Config {
 }
 
 // ssr://xxx 地址是否正确
-function isSSRLinkValid(link) {
+function isSSRLinkValid (link) {
   try {
     const body = link.substring(6)
     const decoded = decode(body)
@@ -150,7 +150,7 @@ function isSSRLinkValid(link) {
 }
 
 // ss://xxx 地址是否正确
-function isSSLinkValid(link) {
+function isSSLinkValid (link) {
   try {
     let body = link.substring(5)
     const _split = body.split('#')
@@ -172,7 +172,7 @@ function isSSLinkValid(link) {
  * 判断链接是否是可用的ss(r)地址
  * @param {String} link 要判断的链接
  */
-export function isLinkValid(link) {
+export function isLinkValid (link) {
   if (/^ssr:\/\//.test(link)) {
     return isSSRLinkValid(link)
   } else if (/^ss:\/\//.test(link)) {
@@ -182,7 +182,7 @@ export function isLinkValid(link) {
 }
 
 // 根据字符串导入配置，字符串使用\n或空格间隔
-export function loadConfigsFromString(strings) {
+export function loadConfigsFromString (strings) {
   if (strings) {
     const arr = strings.split(/[\n ]/)
     const avaliable = []

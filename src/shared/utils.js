@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import Base64 from 'urlsafe-base64'
-import {loadConfigsFromString} from './ssr'
+import { loadConfigsFromString } from './ssr'
 
 const STRING_PROTOTYPE = '[object String]'
 const NUMBER_PROTOTYPE = '[object Number]'
@@ -12,45 +12,45 @@ const ARRAY_PROTOTYPE = '[object Array]'
 const OBJECT_PROTOTYPE = '[object Object]'
 const FUNCTION_PROTOTYPE = '[object Function]'
 
-function protoString(obj) {
+function protoString (obj) {
   return Object.prototype.toString.call(obj)
 }
 
-export function isString(str) {
+export function isString (str) {
   return protoString(str) === STRING_PROTOTYPE
 }
 
-export function isNumber(num) {
+export function isNumber (num) {
   return protoString(num) === NUMBER_PROTOTYPE
 }
 
-export function isRegExp(reg) {
+export function isRegExp (reg) {
   return protoString(reg) === REGEXP_PROTOTYPE
 }
 
-export function isBool(bool) {
+export function isBool (bool) {
   return protoString(bool) === BOOL_PROTOTYPE
 }
 
-export function isDate(date) {
+export function isDate (date) {
   return protoString(date) === DATE_PROTOTYPE
 }
 
-export function isArray(arr) {
+export function isArray (arr) {
   return protoString(arr) === ARRAY_PROTOTYPE
 }
 
-export function isObject(obj) {
+export function isObject (obj) {
   return protoString(obj) === OBJECT_PROTOTYPE
 }
 
-export function isFunction(fn) {
+export function isFunction (fn) {
   return protoString(fn) === FUNCTION_PROTOTYPE
 }
 
-export function debounce(fn, delay) {
+export function debounce (fn, delay) {
   let timer
-  return function(...args) {
+  return function (...args) {
     timer && clearTimeout(timer)
     timer = setTimeout(() => {
       fn.apply(this, args)
@@ -63,7 +63,7 @@ export function debounce(fn, delay) {
  * @param  {Object} to      object that want to be merget to
  * @param  {Object} origins origin object sources
  */
-export function merge(to, ...origins) {
+export function merge (to, ...origins) {
   origins.forEach(from => {
     for (const key in from) {
       const value = from[key]
@@ -88,7 +88,7 @@ export function merge(to, ...origins) {
  * @param {Object} from 用于合并的应用配置
  * @param {Boolean} appendArray 是否将新数组追加到源数组中而不是覆盖到方式
  */
-export function configMerge(to, from, appendArray = false) {
+export function configMerge (to, from, appendArray = false) {
   for (const key in from) {
     const value = from[key]
     switch (protoString(value)) {
@@ -119,7 +119,7 @@ export function configMerge(to, from, appendArray = false) {
  * @param {Object} appConfig 当前的应用配置
  * @param {Object} targetConfig 新的应用配置
  */
-export function getUpdatedKeys(appConfig = {}, targetConfig) {
+export function getUpdatedKeys (appConfig = {}, targetConfig) {
   return Object.keys(targetConfig).filter(key => {
     // 如果原对象类型和新的类型不一致直接返回true
     const value = targetConfig[key]
@@ -146,7 +146,7 @@ export function getUpdatedKeys(appConfig = {}, targetConfig) {
 }
 
 // deep assign
-export function assign(to, ...origins) {
+export function assign (to, ...origins) {
   origins.forEach(from => {
     if (!isObject(from)) {
       return
@@ -170,7 +170,7 @@ export function assign(to, ...origins) {
 }
 
 // clone obj
-export function clone(obj, deep = false) {
+export function clone (obj, deep = false) {
   if (obj === undefined || obj === null) {
     return
   }
@@ -194,7 +194,7 @@ export function clone(obj, deep = false) {
 }
 
 // 配置是否相同
-export function isConfigEqual(config1, config2) {
+export function isConfigEqual (config1, config2) {
   return (
     isObject(config1) &&
     isObject(config2) &&
@@ -222,7 +222,7 @@ export function isConfigEqual(config1, config2) {
 }
 
 // 生成随机ID
-export function generateID() {
+export function generateID () {
   const seed = 'ABCDEF01234567890'
   const arr = []
   for (let i = 0; i < 32; i++) {
@@ -232,7 +232,7 @@ export function generateID() {
 }
 
 // 为配置分组
-export function groupConfigs(configs, selectedIndex) {
+export function groupConfigs (configs, selectedIndex) {
   const groups = {}
   const ungrouped = []
   configs.forEach((node, index) => {
@@ -259,14 +259,14 @@ export function groupConfigs(configs, selectedIndex) {
  * 判断选择的local.py的路径是否正确
  * @param {*String} path local.py所在的目录
  */
-export function isSSRPathAvaliable(folderPath) {
+export function isSSRPathAvaliable (folderPath) {
   // const localPyPath = path.join(folderPath, 'local.py')
   const localPyPath = path.join(folderPath, 'ssr-local')
   console.log(localPyPath, fs.existsSync(localPyPath))
   return fs.existsSync(localPyPath)
 }
 
-export function somePromise(promiseArr) {
+export function somePromise (promiseArr) {
   return new Promise((resolve, reject) => {
     let count = 0
     for (const p of promiseArr) {
@@ -284,11 +284,9 @@ export function somePromise(promiseArr) {
  * 发起网络请求
  * @param {String} url 请求的路径
  */
-export function request(url, fromRenderer) {
+export function request (url, fromRenderer) {
   let _net
   if (fromRenderer) {
-    // const { remote } = require('electron')
-    // const { net } = remote.require('electron')
     _net = require('electron').remote.net
   } else {
     const { net } = require('electron')
@@ -323,7 +321,7 @@ export function request(url, fromRenderer) {
 /**
  * 根据订阅返回值判断其是否为可用的订阅内容
  */
-export function isSubscribeContentValid(content) {
+export function isSubscribeContentValid (content) {
   if (!content) {
     return [false]
   }

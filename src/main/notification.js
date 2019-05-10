@@ -7,7 +7,7 @@ import logger from './logger'
 
 const isDesktopNotificationSupported = Notification.isSupported()
 
-export function showNotification(body, title = '通知', onClick) {
+export function showNotification (body, title = '通知', onClick) {
   if (isDesktopNotificationSupported) {
     const notification = new Notification({
       title,

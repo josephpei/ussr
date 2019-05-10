@@ -61,7 +61,7 @@ ipcRenderer
  * 与main进程同步配置项
  * @param {Object} appConfig 用于更新的应用配置
  */
-export function syncConfig(appConfig) {
+export function syncConfig (appConfig) {
   console.log('start sync data: %o', appConfig)
   ipcRenderer.send(events.EVENT_RX_SYNC_RENDERER, appConfig)
 }
@@ -69,7 +69,7 @@ export function syncConfig(appConfig) {
 /**
  * 主动获取初始化数据
  */
-export function getInitConfig() {
+export function getInitConfig () {
   console.log('get init config data')
   const res = ipcRenderer.sendSync(events.EVENT_APP_WEB_INIT)
   store.dispatch('initConfig', res)
@@ -78,20 +78,20 @@ export function getInitConfig() {
 /**
  * 切换menu显示
  */
-export function toggleMenu() {
+export function toggleMenu () {
   ipcRenderer.send(events.EVENT_APP_TOGGLE_MENU)
 }
 
 /**
  * 隐藏窗口
  */
-export function hideWindow() {
+export function hideWindow () {
   ipcRenderer.send(events.EVENT_APP_HIDE_WINDOW)
 }
 
 /**
  * 打开本地文件/目录
  */
-export function openDialog(options) {
+export function openDialog (options) {
   return ipcRenderer.sendSync(events.EVENT_APP_OPEN_DIALOG, options)
 }

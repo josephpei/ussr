@@ -36,7 +36,7 @@ autoUpdater
   })
 
 // 版本升级check
-export function versionCheck(oldVersion, newVersion) {
+export function versionCheck (oldVersion, newVersion) {
   const oldArr = oldVersion.split('-')
   const newArr = newVersion.split('-')
   // 0.11.1 -> 1101
@@ -67,7 +67,7 @@ export function versionCheck(oldVersion, newVersion) {
 }
 
 // 检查更新
-export function checkUpdate(force = false) {
+export function checkUpdate (force = false) {
   if (isLinux && !/\.AppImage&/.test(exePath)) {
     request(
       'https://raw.githubusercontent.com/josephpei/ussr/master/package.json'

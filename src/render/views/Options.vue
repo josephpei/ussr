@@ -7,7 +7,7 @@
       <TabPane label="SSR设置" name="ssr">
         <OptionSsr></OptionSsr>
       </TabPane>
-      <TabPane label="订阅" name="subscribe">
+      <TabPane label="订阅" name="subscribes">
         <OptionSubscribe></OptionSubscribe>
       </TabPane>
       <TabPane label="快捷键" name="shortcuts">
