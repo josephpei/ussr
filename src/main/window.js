@@ -23,7 +23,7 @@ export function createWindow() {
     maximizable: false,
     show: true,
     autoHideMenuBar: true,
-    icon: path.join(__static, 'logo.png'),
+    icon: path.join(__static, 'icon.png'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV !== 'development',

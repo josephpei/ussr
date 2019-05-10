@@ -206,7 +206,6 @@ function updateTray (appConfig) {
 // 根据应用状态显示不同的图标
 function setTrayIcon (appConfig) {
   if (appConfig.enable) {
-    console.log('fuck bj fuck bj')
     if (appConfig.sysProxyMode === 1) {
       tray.setImage(pacTray)
       isMac && tray.setPressedImage(pacHighlightTray)
@@ -218,7 +217,6 @@ function setTrayIcon (appConfig) {
       isMac && tray.setPressedImage(enabledHighlightTray)
     }
   } else {
-    console.log('fuck fuck')
     tray.setImage(disabledTray)
     isMac && tray.setPressedImage(disabledTray)
   }
@@ -231,7 +229,7 @@ export default function renderTray (appConfig) {
   // 生成tray
   /* global __static */
   tray = new Tray(nativeImage.createEmpty())
-  // tray = new Tray(path.join(__static, 'icon.png'))
+  // tray = new Tray(path.join(__static, 'tray.png'))
   updateTray(appConfig)
   setTrayIcon(appConfig)
   tray.on(isMac || isWin ? 'double-click' : 'click', handler.showMainWindow)
