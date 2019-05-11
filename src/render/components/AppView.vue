@@ -25,10 +25,9 @@ export default {
   width 100vw
   height 100vh
   overflow hidden
-.page-view-enter-active
-.page-view-leave-active
+.page-view-enter-active, .page-view-leave-active
   position absolute
-  transition all .3s
+  transition all 0.3s
 .page-view-leave
   transform translate3d(0, 0, 0)
 .page-view-leave-to

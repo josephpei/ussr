@@ -1,17 +1,11 @@
 <template>
   <div class="options-container px-2 pb-2 scroll-y">
     <Form ref="form" class="mt-1" :model="form" :label-width="0">
-      <FormItem
-        v-for="(funcText, funcName) in globalShortcutMaps"
-        :key="funcName"
-      >
+      <FormItem v-for="(funcText, funcName) in globalShortcutMaps" :key="funcName">
         <Row type="flex" :gutter="24">
           <i-col :span="5">
-            <Checkbox
-              v-model="form.globalShortcuts[funcName].enable"
-              @on-change="update('globalShortcuts', funcName)"
-            >
-              {{ funcText }}
+            <Checkbox v-model="form.globalShortcuts[funcName].enable" @on-change="update('globalShortcuts', funcName)"
+              >{{ funcText }}
             </Checkbox>
           </i-col>
           <i-col :span="8">
@@ -31,8 +25,7 @@
             <Checkbox
               v-model="form.windowShortcuts.toggleMenu.enable"
               @on-change="update('windowShortcuts', 'toggleMenu')"
-            >
-              切换窗口菜单显隐
+              >切换窗口菜单显隐
             </Checkbox>
           </i-col>
           <i-col :span="8">
@@ -59,7 +52,7 @@ import { isLinux } from '../../../shared/env'
 const globalShortcut = remote.globalShortcut
 
 export default {
-  data() {
+  data () {
     const appConfig = this.$store.state.appConfig
     return {
       isLinux,
@@ -77,10 +70,10 @@ export default {
   },
   methods: {
     ...mapActions(['updateConfig']),
-    update: debounce(function(parent, field) {
+    update: debounce(function (parent, field) {
       this.updateConfig({ [parent]: { [field]: this.form[parent][field] } })
     }, 1000),
-    keydown: function(e) {
+    keydown: function (e) {
       e.preventDefault()
       if (e.metaKey) {
         this.funcKeys.add('Command')
@@ -99,7 +92,7 @@ export default {
         this.actionKey = e.key.toUpperCase()
       }
     },
-    keyup: function(e, parent, field) {
+    keyup: function (e, parent, field) {
       if (this.funcKeys.size || this.actionKey) {
         const keys = Array.from(this.funcKeys)
         if (this.actionKey) {

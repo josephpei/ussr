@@ -2,10 +2,7 @@
   <AppView name="panel" class="px-2 py-2" row>
     <SsrNodes></SsrNodes>
     <SsrFrom class="flex-1 mx-1"></SsrFrom>
-    <SsrGroup
-      v-show="editingGroup.show && editingGroup.title"
-      class="flex-1 ml-1"
-    ></SsrGroup>
+    <SsrGroup v-show="editingGroup.show && editingGroup.title" class="flex-1 ml-1"></SsrGroup>
     <SsrQrcode v-show="!editingGroup.show"></SsrQrcode>
     <div v-show="editingGroup.show && !editingGroup.title" class="flex-1"></div>
   </AppView>

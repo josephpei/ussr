@@ -28,13 +28,7 @@
     </ul>
     <div class="link flex flex-ai-center mt-1">
       <Checkbox v-model="isSSR">SSR链接</Checkbox>
-      <i-input
-        class="flex-1"
-        ref="input"
-        :value="editingConfigLink"
-        readonly
-        style="width:auto"
-      >
+      <i-input class="flex-1" ref="input" :value="editingConfigLink" readonly style="width:auto">
         <template slot="append">
           <Tooltip :content="copyTooltip" placement="top-end" :delay="300">
             <Button
@@ -64,7 +58,7 @@ import { clone, merge } from '../../../shared/utils'
 const COPY_TOOLTIP = '点击复制链接'
 const COPY_TOOLTIP_COPIED = '链接已复制'
 export default {
-  data() {
+  data () {
     return {
       isSSR: true,
       copyTooltip: COPY_TOOLTIP,
@@ -81,12 +75,10 @@ export default {
   computed: {
     ...mapState(['appConfig', 'editingConfig']),
     ...mapGetters(['isEditingConfigUpdated']),
-    editingConfigLink() {
-      return this.isSSR
-        ? this.editingConfig.getSSRLink()
-        : this.editingConfig.getSSLink()
+    editingConfigLink () {
+      return this.isSSR ? this.editingConfig.getSSRLink() : this.editingConfig.getSSLink()
     },
-    editingConfigQR() {
+    editingConfigQR () {
       return qr.svgObject(this.editingConfigLink)
     },
   },
@@ -96,11 +88,9 @@ export default {
   methods: {
     ...mapMutations(['resetState', 'updateEditingBak']),
     ...mapActions(['updateConfigs']),
-    copyImage() {
+    copyImage () {
       const self = this
-      const base64Image = `data:image/svg+xml;base64,${btoa(
-        new XMLSerializer().serializeToString(this.$refs.svg)
-      )}`
+      const base64Image = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(this.$refs.svg))}`
       const img = new Image()
       const canvas = document.createElement('canvas')
       img.width = canvas.width = 280
@@ -109,14 +99,14 @@ export default {
       ctx.fillStyle = '#fff'
       ctx.fillRect(0, 0, 280, 280)
       img.src = base64Image
-      img.onload = function() {
+      img.onload = function () {
         ctx.drawImage(img, 0, 0, 280, 280)
         clipboard.writeImage(nativeImage.createFromDataURL(canvas.toDataURL()))
         self.$Message.success('已将二维码复制到剪贴板')
       }
       this.contextmenu.show = false
     },
-    copyLink() {
+    copyLink () {
       this.copied = true
       this.copyTooltip = COPY_TOOLTIP_COPIED
       clipboard.writeText(this.editingConfigLink)
@@ -125,18 +115,18 @@ export default {
       })
       this.contextmenu.show = false
     },
-    onCopyOver() {
+    onCopyOver () {
       if (this.timeout) {
         clearTimeout(this.timeout)
         this.timeout = null
       }
     },
-    onCopyOut() {
+    onCopyOut () {
       this.timeout = setTimeout(() => {
         this.copyTooltip = COPY_TOOLTIP
       }, 500)
     },
-    onRightClick(e) {
+    onRightClick (e) {
       const showOnRight = e.layerX < 180
       merge(this.contextmenu, {
         show: true,
@@ -145,20 +135,18 @@ export default {
         top: `${e.layerY + 4}px`,
       })
     },
-    clickoutside() {
+    clickoutside () {
       this.contextmenu.show = false
     },
-    cancel() {
+    cancel () {
       this.resetState()
       hideWindow()
     },
-    save() {
+    save () {
       if (this.editingConfig.isValid()) {
         if (this.isEditingConfigUpdated) {
           const copy = this.appConfig.configs.slice()
-          const index = copy.findIndex(
-            config => config.id === this.editingConfig.id
-          )
+          const index = copy.findIndex(config => config.id === this.editingConfig.id)
           copy.splice(index, 1)
           copy.splice(index, 0, clone(this.editingConfig))
           this.updateEditingBak()
@@ -175,6 +163,7 @@ export default {
 </script>
 <style lang="stylus">
 @import '../../assets/styles/variable'
+
 .app-qrcode
   .tip
     line-height 0
@@ -187,7 +176,7 @@ export default {
     min-width 6rem
     list-style none
     background-color #fff
-    box-shadow 2px 2px 4px rgba(0, 0, 0, .5)
+    box-shadow 2px 2px 4px rgba(0, 0, 0, 0.5)
     z-index 999
     li
       padding 4px 16px

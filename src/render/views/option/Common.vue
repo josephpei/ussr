@@ -1,13 +1,7 @@
 <template>
   <div class="options-container px-2 pb-2 scroll-y">
-    <Form
-      ref="form"
-      class="mt-1"
-      :model="form"
-      :rules="rules"
-      :label-width="120"
-    >
-      <FormItem prop="ssrPath" label="ssr python目录">
+    <Form ref="form" class="mt-1" :model="form" :rules="rules" :label-width="120">
+      <FormItem prop="ssrPath" label="ssr-n目录">
         <Input
           v-model="form.ssrPath"
           placeholder="请选择shadowsocks目录"
@@ -18,48 +12,24 @@
       </FormItem>
       <div class="flex">
         <FormItem class="flex-1" label="开机自启动">
-          <Checkbox
-            v-model="form.autoLaunch"
-            @on-change="update('autoLaunch')"
-          />
+          <Checkbox v-model="form.autoLaunch" @on-change="update('autoLaunch')"/>
         </FormItem>
         <FormItem class="flex-1" label="局域网共享">
-          <Checkbox
-            v-model="form.shareOverLan"
-            @on-change="update('shareOverLan')"
-          />
+          <Checkbox v-model="form.shareOverLan" @on-change="update('shareOverLan')"/>
         </FormItem>
         <FormItem class="flex-1" label="http代理">
-          <Checkbox
-            v-model="form.httpProxyEnable"
-            @on-change="update('httpProxyEnable')"
-          />
+          <Checkbox v-model="form.httpProxyEnable" @on-change="update('httpProxyEnable')"/>
         </FormItem>
       </div>
       <div class="flex">
         <FormItem class="flex-1" label="pac端口">
-          <InputNumber
-            v-model="form.pacPort"
-            :min="0"
-            :max="65535"
-            @on-change="update('pacPort')"
-          />
+          <InputNumber v-model="form.pacPort" :min="0" :max="65535" @on-change="update('pacPort')"/>
         </FormItem>
         <FormItem class="flex-1" label="本地监听端口">
-          <InputNumber
-            v-model="form.localPort"
-            :min="0"
-            :max="65535"
-            @on-change="update('localPort')"
-          />
+          <InputNumber v-model="form.localPort" :min="0" :max="65535" @on-change="update('localPort')" />
         </FormItem>
         <FormItem class="flex-1" label="http代理端口">
-          <InputNumber
-            v-model="form.httpProxyPort"
-            :min="0"
-            :max="65535"
-            @on-change="update('httpProxyPort')"
-          />
+          <InputNumber v-model="form.httpProxyPort" :min="0" :max="65535" @on-change="update('httpProxyPort')" />
         </FormItem>
       </div>
     </Form>
@@ -70,7 +40,7 @@ import { mapActions } from 'vuex'
 import { isSSRPathAvaliable, debounce } from '../../../shared/utils'
 import { openDialog } from '../../ipc'
 export default {
-  data() {
+  data () {
     const appConfig = this.$store.state.appConfig
     return {
       form: {
@@ -98,25 +68,25 @@ export default {
     }
   },
   watch: {
-    'appConfig.ssrPath'(v) {
+    'appConfig.ssrPath' (v) {
       this.ssrPath = v
     },
-    'appConfig.autoLaunch'(v) {
+    'appConfig.autoLaunch' (v) {
       this.autoLaunch = v
     },
-    'appConfig.shareOverLan'(v) {
+    'appConfig.shareOverLan' (v) {
       this.shareOverLan = v
     },
-    'appConfig.localPort'(v) {
+    'appConfig.localPort' (v) {
       this.localPort = v
     },
-    'appConfig.pacPort'(v) {
+    'appConfig.pacPort' (v) {
       this.pacPort = v
     },
   },
   methods: {
     ...mapActions(['updateConfig']),
-    changeSSRPath() {
+    changeSSRPath () {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.updateConfig({ ssrPath: this.form.ssrPath })
@@ -124,7 +94,7 @@ export default {
       })
     },
     // 选择目录
-    selectPath() {
+    selectPath () {
       const path = openDialog({
         properties: ['openDirectory'],
       })
@@ -137,7 +107,7 @@ export default {
         })
       }
     },
-    update: debounce(function(field) {
+    update: debounce(function (field) {
       if (this.form[field] !== this.$store.state.appConfig[field]) {
         this.updateConfig({ [field]: this.form[field] })
       }

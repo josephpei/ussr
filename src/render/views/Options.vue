@@ -32,11 +32,9 @@ import OptionShortcut from './option/Shortcut'
 export default {
   name: 'Options',
   computed: {
-    ...mapState(['view'])
+    ...mapState(['view']),
   },
-  components: {
-    OptionCommon, OptionSsr, OptionSubscribe, OptionShortcut
-  },
+  components: { OptionCommon, OptionSsr, OptionSubscribe, OptionShortcut },
   methods: {
     ...mapMutations(['resetState', 'updateView']),
     done () {
@@ -49,6 +47,7 @@ export default {
 
 <style lang="stylus">
 @import '../assets/styles/variable'
+
 .view-options
   .create-input
     width 8.75rem
@@ -63,5 +62,5 @@ export default {
     .ivu-input
       border-color $color-error
       &:focus
-        box-shadow 0 0 0 2px rgba($color-error, .2)
+        box-shadow 0 0 0 2px rgba($color-error, 0.2)
 </style>

@@ -1,29 +1,14 @@
 <template>
-  <Form
-    class="panel-form"
-    ref="form"
-    :model="editingConfig"
-    :rules="rules"
-    :label-width="88"
-  >
+  <Form class="panel-form" ref="form" :model="editingConfig" :rules="rules" :label-width="88">
     <FormItem label="服务器地址" prop="server">
-      <Input
-        type="text"
-        :value="editingConfig.server"
-        @input="v => onInput('server', v)"
-      />
+      <Input type="text" :value="editingConfig.server" @input="v => onInput('server', v)"/>
     </FormItem>
     <FormItem label="服务器端口" prop="server_port">
-      <InputNumber
-        :value="editingConfig.server_port"
-        @input="v => onInput('server_port', v)"
-      />
+      <InputNumber :value="editingConfig.server_port" @input="v => onInput('server_port', v)"/>
     </FormItem>
     <FormItem prop="password">
       <span slot="label">
-        <Checkbox v-model="passwordVisiable" style="margin-right"
-          >密码</Checkbox
-        >
+        <Checkbox v-model="passwordVisiable" style="margin-right">密码</Checkbox>
       </span>
       <Input
         :type="passwordVisiable ? 'text' : 'password'"
@@ -33,39 +18,20 @@
     </FormItem>
     <FormItem label="加密方式" prop="method">
       <Select :value="editingConfig.method" @input="v => onInput('method', v)">
-        <Option v-for="method in methods" :key="method" :value="method">{{
-          method
-        }}</Option>
+        <Option v-for="method in methods" :key="method" :value="method">{{ method }}</Option>
       </Select>
     </FormItem>
     <FormItem label="协议" prop="protocol">
-      <Select
-        :value="editingConfig.protocol"
-        @input="v => onInput('protocol', v)"
-      >
-        <Option
-          v-for="protocol in protocols"
-          :key="protocol"
-          :value="protocol"
-          >{{ protocol }}</Option
-        >
+      <Select :value="editingConfig.protocol" @input="v => onInput('protocol', v)">
+        <Option v-for="protocol in protocols" :key="protocol" :value="protocol">{{ protocol }}</Option>
       </Select>
     </FormItem>
     <FormItem label="协议参数">
-      <Input
-        :value="editingConfig.protocolparam"
-        @input="v => onInput('protocolparam', v)"
-      />
+      <Input :value="editingConfig.protocolparam" @input="v => onInput('protocolparam', v)" />
     </FormItem>
     <FormItem label="混淆" prop="obfs">
-      <Select
-        :value="editingConfig.obfs"
-        @input="v => onInput('obfs', v)"
-        @on-change="onObfsChange"
-      >
-        <Option v-for="obfs in obfses" :key="obfs" :value="obfs">{{
-          obfs
-        }}</Option>
+      <Select :value="editingConfig.obfs" @input="v => onInput('obfs', v)" @on-change="onObfsChange">
+        <Option v-for="obfs in obfses" :key="obfs" :value="obfs">{{ obfs }}</Option>
       </Select>
     </FormItem>
     <FormItem label="混淆参数">
@@ -76,10 +42,7 @@
       />
     </FormItem>
     <FormItem label="备注">
-      <Input
-        :value="editingConfig.remarks"
-        @input="v => onInput('remarks', v)"
-      />
+      <Input :value="editingConfig.remarks" @input="v => onInput('remarks', v)"/>
     </FormItem>
     <FormItem label="分组">
       <AutoComplete
@@ -99,7 +62,7 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'SsrForm',
-  data() {
+  data () {
     return {
       rules: {
         server: { required: true },
@@ -114,19 +77,9 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      'appConfig',
-      'editingConfig',
-      'methods',
-      'protocols',
-      'obfses',
-    ]),
-    groups() {
-      if (
-        this.appConfig &&
-        this.appConfig.configs &&
-        this.appConfig.configs.length
-      ) {
+    ...mapState(['appConfig', 'editingConfig', 'methods', 'protocols', 'obfses']),
+    groups () {
+      if (this.appConfig && this.appConfig.configs && this.appConfig.configs.length) {
         const groups = []
         this.appConfig.configs.forEach(config => {
           if (config.group) {
@@ -140,20 +93,18 @@ export default {
         return []
       }
     },
-    filteredGroups() {
+    filteredGroups () {
       if (!this.editingConfig.group) {
         return this.groups
       }
-      return this.groups.filter(
-        item => item.indexOf(this.editingConfig.group) > -1
-      )
+      return this.groups.filter(item => item.indexOf(this.editingConfig.group) > -1)
     },
   },
   methods: {
-    onInput(field, v) {
+    onInput (field, v) {
       this.$store.commit('updateEditing', { [field]: v })
     },
-    onObfsChange(v) {
+    onObfsChange (v) {
       this.onInput('obfs', v)
       if (v === 'plain') {
         this.onInput('obfsparam', '')

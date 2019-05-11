@@ -57,7 +57,8 @@
       "@vue/prettier"
     ],
     "rules": {
-      "space-before-function-paren": ["error", "always"]
+      "space-before-function-paren": ["error", "always"],
+      "no-console": 0
     },
     "parserOptions": {
       "parser": "babel-eslint"

@@ -1,8 +1,6 @@
 <template>
   <div class="options-container px-2 pb-2 scroll-y">
-    <Alert v-if="showTip" type="info" closable @on-close="closeTip">
-      双击可修改，修改后回车可保存，esc可取消修改。
-    </Alert>
+    <Alert v-if="showTip" type="info" closable @on-close="closeTip">双击可修改，修改后回车可保存，esc可取消修改。</Alert>
     <fieldset class="px-1 py-1">
       <legend class="ml-1">SSR加密方法</legend>
       <edit-tag
@@ -66,7 +64,7 @@ import { STORE_KEY_SSR_TIP } from '../../constants'
 // const ls = window.localStorage
 import ls from '../../store'
 export default {
-  data() {
+  data () {
     return {
       showTip: !ls.get(STORE_KEY_SSR_TIP),
       method: '',
@@ -81,16 +79,11 @@ export default {
     EditTag,
   },
   methods: {
-    ...mapMutations([
-      'updateView',
-      'updateMethods',
-      'updateProtocols',
-      'updateObfses',
-    ]),
-    closeTip() {
+    ...mapMutations(['updateView', 'updateMethods', 'updateProtocols', 'updateObfses',]),
+    closeTip () {
       ls.setItem(STORE_KEY_SSR_TIP, true)
     },
-    addMethod() {
+    addMethod () {
       if (this.method) {
         const clone = this.methods.slice()
         clone.push(this.method)
@@ -98,7 +91,7 @@ export default {
         this.method = ''
       }
     },
-    addProtocol() {
+    addProtocol () {
       if (this.protocol) {
         const clone = this.protocols.slice()
         clone.push(this.protocol)
@@ -106,7 +99,7 @@ export default {
         this.protocol = ''
       }
     },
-    addObfs() {
+    addObfs () {
       if (this.obfs) {
         const clone = this.obfses.slice()
         clone.push(this.obfs)
@@ -114,38 +107,38 @@ export default {
         this.obfs = ''
       }
     },
-    updateMethod(method, newVal) {
+    updateMethod (method, newVal) {
       const clone = this.methods.slice()
       const index = clone.indexOf(method)
       clone.splice(index, 1)
       clone.splice(index, 0, newVal)
       this.updateMethods(clone)
     },
-    updateProtocol(protocol, newVal) {
+    updateProtocol (protocol, newVal) {
       const clone = this.protocols.slice()
       const index = clone.indexOf(protocol)
       clone.splice(index, 1)
       clone.splice(index, 0, newVal)
       this.updateProtocols(clone)
     },
-    updateObfs(obfs, newVal) {
+    updateObfs (obfs, newVal) {
       const clone = this.obfses.slice()
       const index = clone.indexOf(obfs)
       clone.splice(index, 1)
       clone.splice(index, 0, newVal)
       this.updateObfses(clone)
     },
-    removeMethod(name) {
+    removeMethod (name) {
       const clone = this.methods.slice()
       clone.splice(clone.indexOf(name), 1)
       this.updateMethods(clone)
     },
-    removeProtocol(name) {
+    removeProtocol (name) {
       const clone = this.protocols.slice()
       clone.splice(clone.indexOf(name), 1)
       this.updateProtocols(clone)
     },
-    removeObfs(name) {
+    removeObfs (name) {
       const clone = this.obfses.slice()
       clone.splice(clone.indexOf(name), 1)
       this.updateObfses(clone)

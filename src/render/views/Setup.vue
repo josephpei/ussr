@@ -2,28 +2,24 @@
   <AppView name="setup" class="px-2">
     <template v-if="(autoDownload || manualDownload) && !autoError">
       <Spin />
-      <p class="text-center mt-1">正在为您下载<dot></dot></p>
+      <p class="text-center mt-1">
+        正在为您下载
+        <dot></dot>
+      </p>
     </template>
     <div v-else class="flex flex-column flex-ai-center w-100">
       <div class="flex flex-ai-center w-100">
         <div class="flex-1 flex flex-ai-center flex-jc-end">
-          <Button type="primary" class="w-6r" @click="restart">{{
-            autoError ? '点击重试' : '自动下载'
-          }}</Button>
+          <Button type="primary" class="w-6r" @click="restart">
+            {{ autoError ? '点击重试' : '自动下载' }}
+          </Button>
         </div>
         <span class="mx-2">OR</span>
         <div class="flex-1 flex flex-ai-center">
           <Form ref="form" class="flex-1" :model="form" :rules="rules" inline>
             <FormItem prop="ssrPath" style="margin-bottom:0">
-              <Button type="primary" class="w-6r" @click="selectPath"
-                >手动选择</Button
-              >
-              <Input
-                v-model="form.ssrPath"
-                readonly
-                placeholder="所选目录下需有local.py文件"
-                style="width:180px"
-              />
+              <Button type="primary" class="w-6r" @click="selectPath">手动选择</Button>
+              <Input v-model="form.ssrPath" readonly placeholder="所选目录下需有ssr-local文件" style="width:180px" />
             </FormItem>
           </Form>
         </div>
@@ -39,14 +35,11 @@ import ls from '../store'
 import { openDialog } from '../ipc'
 import { isSSRPathAvaliable } from '../../shared/utils'
 import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'
-import {
-  EVENT_SSR_DOWNLOAD_RENDERER,
-  EVENT_SSR_DOWNLOAD_MAIN,
-} from '../../shared/events'
+import { EVENT_SSR_DOWNLOAD_RENDERER, EVENT_SSR_DOWNLOAD_MAIN } from '../../shared/events'
 import Dot from '../components/Dot'
 
 export default {
-  data() {
+  data () {
     return {
       autoDownload: ls.get(STORE_KEY_AUTO_DOWNLOAD) === '1',
       // 手动下载
@@ -79,7 +72,7 @@ export default {
     Dot,
   },
   watch: {
-    autoError(v) {
+    autoError (v) {
       if (v) {
         this.$Message.error({
           content: v,
@@ -92,17 +85,17 @@ export default {
   },
   methods: {
     ...mapMutations(['updateConfig']),
-    restart() {
+    restart () {
       this.autoError = ''
       this.autoStart()
     },
     // 自动模式
-    autoStart() {
+    autoStart () {
       this.manualDownload = true
       this.autoError = ''
       const self = this
 
-      function callback(e, errMessage) {
+      function callback (e, errMessage) {
         console.log('download ssr result', e, errMessage)
         ipcRenderer.removeListener(EVENT_SSR_DOWNLOAD_MAIN, callback)
         if (errMessage) {
@@ -119,7 +112,7 @@ export default {
       ipcRenderer.on(EVENT_SSR_DOWNLOAD_MAIN, callback)
     },
     // 选择目录
-    selectPath() {
+    selectPath () {
       this.manualDownload = false
       const path = openDialog({
         properties: ['openDirectory'],
@@ -134,13 +127,13 @@ export default {
       }
     },
     // 完成初始化
-    setup(ssrPath) {
+    setup (ssrPath) {
       this.$Message.destroy()
       this.updateConfig([{ ssrPath: ssrPath || this.form.ssrPath }, true])
       this.$emit('finished')
     },
   },
-  created() {
+  created () {
     if (this.autoDownload) {
       this.autoStart()
     }
@@ -149,6 +142,7 @@ export default {
 </script>
 <style lang="stylus">
 @import '../assets/styles/variable'
+
 .view-setup
   .ivu-spin-dot
     width 48px

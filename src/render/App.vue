@@ -1,11 +1,7 @@
 <template>
   <div id="app">
     <transition name="page-view">
-      <component
-        :is="view.page"
-        @back="onBack"
-        @finished="onStepFinished"
-      ></component>
+      <component :is="view.page" @back="onBack" @finished="onStepFinished"></component>
     </transition>
   </div>
 </template>
@@ -25,10 +21,10 @@ export default {
   },
   methods: {
     ...mapMutations(['prevView', 'nextView']),
-    onBack() {
+    onBack () {
       this.prevView()
     },
-    onStepFinished() {
+    onStepFinished () {
       this.nextView()
     },
   },

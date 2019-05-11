@@ -45,16 +45,14 @@ import { EVENT_CONFIG_COPY_CLIPBOARD } from '../../../shared/events'
 // 避免因上/下移动分组/配置而导致index改变后选中项不是group的问题
 let preventIndexAffect = false
 export default {
-  data() {
+  data () {
     return {
       buttonProps: {
         type: 'ghost',
         size: 'small',
       },
       // 记录ID
-      selectedConfigId: this.$store.getters.selectedConfig
-        ? this.$store.getters.selectedConfig.id
-        : '',
+      selectedConfigId: this.$store.getters.selectedConfig ? this.$store.getters.selectedConfig.id : '',
       // 记录分组名
       selectedGroupName: '',
       selectedNode: {},
@@ -64,27 +62,20 @@ export default {
     ...mapState(['appConfig', 'editingGroup']),
     ...mapGetters(['selectedConfig']),
     // 配置节点
-    configs() {
-      if (
-        this.appConfig &&
-        this.appConfig.configs &&
-        this.appConfig.configs.length
-      ) {
+    configs () {
+      if (this.appConfig && this.appConfig.configs && this.appConfig.configs.length) {
         return this.appConfig.configs.map(config => {
-          return this.cloneConfig(
-            config,
-            this.selectedGroupName ? false : config.id === this.selectedConfigId
-          )
+          return this.cloneConfig(config, this.selectedGroupName ? false : config.id === this.selectedConfigId)
         })
       }
       return []
     },
     // 分组后的配置节点
-    groupedConfigs() {
+    groupedConfigs () {
       return groupConfigs(this.configs)
     },
     // 分组后的ssr节点
-    groupedNodes() {
+    groupedNodes () {
       return Object.keys(this.groupedConfigs).map(groupName => {
         const node = {
           title: groupName,
@@ -96,7 +87,7 @@ export default {
       })
     },
     // 选中的节点数据
-    selectedConfigNode() {
+    selectedConfigNode () {
       if (this.selectedConfigId) {
         return this.configs.find(config => config.id === this.selectedConfigId)
       }
@@ -109,23 +100,15 @@ export default {
       }
       if (this.selectedGroupName) {
         // 选中的是分组
-        const index = this.groupedNodes.findIndex(
-          node => node.title === this.selectedGroupName
-        )
+        const index = this.groupedNodes.findIndex(node => node.title === this.selectedGroupName)
         const isUngrouped = this.selectedGroupName === '未分组'
-        const isPrevUngrouped =
-          index < 1 ? false : this.groupedNodes[index - 1].title === '未分组'
+        const isPrevUngrouped = index < 1 ? false : this.groupedNodes[index - 1].title === '未分组'
         const isNextUngrouped =
-          index > this.groupedNodes.length - 2
-            ? false
-            : this.groupedNodes[index + 1].title === '未分组'
+          index > this.groupedNodes.length - 2 ? false : this.groupedNodes[index + 1].title === '未分组'
         return {
           remove: isUngrouped,
           up: isUngrouped || isPrevUngrouped || index < 1,
-          down:
-            isUngrouped ||
-            isNextUngrouped ||
-            index > this.groupedNodes.length - 2,
+          down: isUngrouped || isNextUngrouped || index > this.groupedNodes.length - 2,
         }
       }
       // 选中的是配置节点
@@ -142,51 +125,42 @@ export default {
     },
   },
   watch: {
-    'appConfig.index'(v) {
+    'appConfig.index' (v) {
       if (preventIndexAffect) {
         preventIndexAffect = false
       } else {
         this.selectedGroupName = ''
-        this.selectedConfigId = this.selectedConfig
-          ? this.selectedConfig.id
-          : ''
+        this.selectedConfigId = this.selectedConfig ? this.selectedConfig.id : ''
       }
     },
-    'editingGroup.updated'(v) {
+    'editingGroup.updated' (v) {
       if (v) {
         this.updateEditingGroup({ updated: false })
         this.selectedGroupName = this.editingGroup.title
       }
     },
-    selectedConfigId() {
+    selectedConfigId () {
       this.setCurrentConfig(this.selectedConfigNode)
     },
   },
   methods: {
-    ...mapMutations([
-      'setCurrentConfig',
-      'updateEditingGroup',
-      'updateView',
-      'resetState',
-    ]),
+    ...mapMutations(['setCurrentConfig', 'updateEditingGroup', 'updateView', 'resetState']),
     ...mapActions(['updateConfigs', 'updateConfig']),
     // 复制节点并带上title和选中参数
-    cloneConfig(config, selected) {
+    cloneConfig (config, selected) {
       return {
-        title: `${config.remarks || config.server} (${config.server}:${
-          config.server_port
-        })`,
+        title: `${config.remarks || config.server} (${config.server}:${config.server_port})`,
         selected,
         ...config,
       }
     },
     // 设置节点选中状态
-    setSelected(group, config) {
+    setSelected (group, config) {
       this.selectedGroupName = group
       this.selectedConfigId = config
     },
     // 点击节点时
-    onSelect(selection) {
+    onSelect (selection) {
       // 第二次点击是取消选择，这个bug曾经修复，又重新复现
       // https://github.com/iview/iview/issues/1533
       if (selection.length > 0) {
@@ -210,29 +184,25 @@ export default {
     },
     // 双击选中该节点
     // TODO: 新版 iview tree 没有双击事件
-    onNodeDBClick(selection) {
+    onNodeDBClick (selection) {
       const node = selection[0]
       this.updateConfig({
-        index: this.appConfig.configs.findIndex(
-          config => config.id === node.id
-        ),
+        index: this.appConfig.configs.findIndex(config => config.id === node.id),
       })
       this.resetState()
       hideWindow()
     },
-    applyNode() {
+    applyNode () {
       const node = this.$refs.tree.getSelectedNodes()[0]
       if (!node.children) {
         this.updateConfig({
-          index: this.appConfig.configs.findIndex(
-            config => config.id === node.id
-          ),
+          index: this.appConfig.configs.findIndex(config => config.id === node.id),
         })
         this.resetState()
       }
     },
     // flat分组
-    flatNodeGroups(groups) {
+    flatNodeGroups (groups) {
       groups = groups || this.groupedNodes
       const flatArr = []
       groups.forEach(group => {
@@ -241,15 +211,15 @@ export default {
       return flatArr
     },
     // 从剪切板导入
-    copyFromClipboard() {
+    copyFromClipboard () {
       ipcRenderer.send(EVENT_CONFIG_COPY_CLIPBOARD)
     },
     // 跳转到订阅管理页面
-    toSubscribe() {
+    toSubscribe () {
       this.updateView({ page: 'Options', tab: 'subscribes', active: true })
     },
     // 新增
-    create() {
+    create () {
       const newConfig = new Config(this.selectedConfigNode)
       const clone = this.appConfig.configs.slice()
       clone.push(newConfig)
@@ -258,20 +228,16 @@ export default {
       this.updateEditingGroup({ show: false })
     },
     // 删除分组
-    removeGroup() {
+    removeGroup () {
       const clone = this.appConfig.configs.slice()
-      this.updateConfigs(
-        clone.filter(config => config.group !== this.selectedGroupName)
-      )
+      this.updateConfigs(clone.filter(config => config.group !== this.selectedGroupName))
       this.setSelected('', this.selectedConfig ? this.selectedConfig.id : '')
       this.updateEditingGroup({ show: false })
     },
     // 删除
-    remove() {
+    remove () {
       const clone = this.appConfig.configs.slice()
-      const index = clone.findIndex(
-        config => config.id === this.selectedConfigId
-      )
+      const index = clone.findIndex(config => config.id === this.selectedConfigId)
       clone.splice(index, 1)
       this.updateConfigs(clone)
       const next = clone[index]
@@ -279,13 +245,11 @@ export default {
       this.setSelected('', next ? next.id : prev ? prev.id : '')
     },
     // 上/下移 direction = 1 上移 其它 下移
-    updown(direction = 1) {
+    updown (direction = 1) {
       const clone = this.groupedNodes.slice()
       if (this.selectedGroupName) {
         // 分组上/下移
-        const index = clone.findIndex(
-          node => node.title === this.selectedGroupName
-        )
+        const index = clone.findIndex(node => node.title === this.selectedGroupName)
         const group = clone.splice(index, 1)
         clone.splice(direction === 1 ? index - 1 : index + 1, 0, group[0])
       } else {
@@ -293,9 +257,7 @@ export default {
         const currentGroup = this.selectedConfigNode.group || '未分组'
         const group = clone.find(node => node.title === currentGroup)
         const childrenClone = group.children.slice()
-        const inGroupIndex = childrenClone.findIndex(
-          node => node.id === this.selectedConfigId
-        )
+        const inGroupIndex = childrenClone.findIndex(node => node.id === this.selectedConfigId)
         childrenClone.splice(
           direction === 1 ? inGroupIndex - 1 : inGroupIndex + 1,
           0,
@@ -310,30 +272,21 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '../../assets/styles/variable';
+@import '../../assets/styles/variable'
 
-.panel-nodes {
-  width: 12.5rem;
-
-  .empty-tree {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .node-tree {
-    border: 1px solid $color-border;
-    border-radius: 4px;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  .ivu-tree-children {
-    .ivu-tree-children {
-      .ivu-tree-arrow {
-        display: none;
-      }
-    }
-  }
-}
+.panel-nodes
+  width 12.5rem
+  .empty-tree
+    display flex
+    justify-content center
+    align-items center
+  .node-tree
+    border 1px solid $color-border
+    border-radius 4px
+    overflow-x hidden
+    overflow-y auto
+  .ivu-tree-children
+    .ivu-tree-children
+      .ivu-tree-arrow
+        display none
 </style>

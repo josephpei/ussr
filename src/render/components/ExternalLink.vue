@@ -1,7 +1,7 @@
 <template>
-  <a href @click.prevent="open"
-    ><slog>{{ href }}</slog></a
-  >
+  <a href @click.prevent="open">
+    <slog>{{ href }}</slog>
+  </a>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
     href: String,
   },
   methods: {
-    open() {
+    open () {
       shell.openExternal(this.href)
     },
   },

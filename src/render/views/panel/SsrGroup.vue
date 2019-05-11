@@ -1,21 +1,10 @@
 <template>
-  <Form
-    class="panel-group"
-    ref="form"
-    :model="form"
-    :rules="rules"
-    :label-width="80"
-    inline
-  >
+  <Form class="panel-group" ref="form" :model="form" :rules="rules" :label-width="80" inline>
     <FormItem label="分组重命名" prop="server">
       <Input type="text" v-model="form.group" />
     </FormItem>
     <span>
-      <Button
-        :disabled="form.group === editingGroup.title"
-        @click="form.group = editingGroup.title"
-        >重置</Button
-      >
+      <Button :disabled="form.group === editingGroup.title" @click="form.group = editingGroup.title">重置</Button>
       <Button class="ml-1" type="primary" @click="rename">保存</Button>
     </span>
   </Form>
@@ -23,7 +12,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       rules: {
         group: { required: true, message: '请输入分组名' },
@@ -37,14 +26,14 @@ export default {
     ...mapState(['editingGroup', 'appConfig']),
   },
   watch: {
-    'editingGroup.title'(v) {
+    'editingGroup.title' (v) {
       this.form.group = v
     },
   },
   methods: {
     ...mapMutations(['updateEditingGroup']),
     ...mapActions(['updateConfigs']),
-    rename() {
+    rename () {
       if (this.form.group !== this.editingGroup.title) {
         const clone = this.appConfig.configs.slice()
         clone.forEach(config => {

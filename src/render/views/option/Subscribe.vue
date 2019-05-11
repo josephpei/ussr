@@ -2,20 +2,8 @@
   <div class="options-container px-2 pb-2 scroll-y">
     <div class="flex pb-1">
       <Button type="primary" class="w-6r" @click="onCreate">添加</Button>
-      <Button
-        type="primary"
-        class="w-6r ml-1"
-        :disabled="selectedRows.length < 1"
-        @click="update"
-        >更新</Button
-      >
-      <Button
-        type="warning"
-        class="w-6r ml-1"
-        @click="remove"
-        :disabled="selectedRows.length < 1"
-        >删除</Button
-      >
+      <Button type="primary" class="w-6r ml-1" :disabled="selectedRows.length < 1" @click="update">更新</Button>
+      <Button type="warning" class="w-6r ml-1" @click="remove" :disabled="selectedRows.length < 1">删除</Button>
       <div class="ml-auto flex-inline flex-ai-center">
         <Input
           v-show="showNewUrl"
@@ -29,22 +17,10 @@
           @keyup.esc.native="cancel"
           @on-blur="cancel"
         />
-        <Checkbox
-          :value="appConfig.autoUpdateSubscribes"
-          @on-change="onUpdateChange"
-          >自动更新</Checkbox
-        >
-        <div
-          v-if="appConfig.autoUpdateSubscribes"
-          class="flex-inline flex-ai-center cycle-wrapper"
-        >
+        <Checkbox :value="appConfig.autoUpdateSubscribes" @on-change="onUpdateChange">自动更新</Checkbox>
+        <div v-if="appConfig.autoUpdateSubscribes" class="flex-inline flex-ai-center cycle-wrapper">
           <span>每&nbsp;</span>
-          <Input
-            :value="cycle.number"
-            :maxlength="2"
-            number
-            @input="onChangeCycleNumber"
-          />
+          <Input :value="cycle.number" :maxlength="2" number @input="onChangeCycleNumber"/>
           <Select :value="cycle.unit" @input="onChangeCycleUnit">
             <Option value="hour">时</Option>
             <Option value="day">天</Option>
@@ -70,11 +46,7 @@
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
-import {
-  request,
-  isSubscribeContentValid,
-  somePromise,
-} from '../../../shared/utils'
+import { request, isSubscribeContentValid, somePromise } from '../../../shared/utils'
 
 const URL_REGEX = /^https?:\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/
 // 单位对应的小时倍数
@@ -84,7 +56,7 @@ const unitMap = {
   week: 168,
 }
 export default {
-  data() {
+  data () {
     return {
       url: '',
       showNewUrl: false,
@@ -110,19 +82,16 @@ export default {
                   id: 'editing-input',
                 },
                 on: {
-                  'on-blur'() {
+                  'on-blur' () {
                     self.cancelEditing()
                   },
                 },
                 nativeOn: {
-                  keyup(e) {
+                  keyup (e) {
                     if (e.keyCode === 13) {
                       const url = self.editingRowUrl
                       // 未发生改变
-                      if (
-                        url ===
-                        self.appConfig.serverSubscribes[params.index].URL
-                      ) {
+                      if (url === self.appConfig.serverSubscribes[params.index].URL) {
                         self.cancelEditing()
                         return
                       }
@@ -132,10 +101,7 @@ export default {
                           .requestSubscribeUrl(url)
                           .then(res => {
                             self.loading = false
-                            const [
-                              groupCount,
-                              groupConfigs,
-                            ] = isSubscribeContentValid(res)
+                            const [groupCount, groupConfigs] = isSubscribeContentValid(res)
                             if (groupCount > 0) {
                               const clone = self.appConfig.serverSubscribes.slice()
                               clone.splice(params.index, 1)
@@ -143,9 +109,7 @@ export default {
                               let configs = []
                               for (const groupName in groupConfigs) {
                                 groups = groups + groupName + '|'
-                                configs = configs.concat(
-                                  groupConfigs[groupName]
-                                )
+                                configs = configs.concat(groupConfigs[groupName])
                               }
                               clone.splice(params.index, 0, {
                                 URL: url,
@@ -186,10 +150,10 @@ export default {
   },
   computed: {
     ...mapState(['appConfig']),
-    tableData() {
+    tableData () {
       return this.appConfig.serverSubscribes
     },
-    cycle() {
+    cycle () {
       const interval = this.appConfig.subscribeUpdateInterval
       const cycle = { number: 1, unit: 'hour' }
       if (interval % 24 === 0) {
@@ -207,12 +171,12 @@ export default {
     },
   },
   watch: {
-    url() {
+    url () {
       if (this.urlError) {
         this.urlError = false
       }
     },
-    editingRowUrl() {
+    editingRowUrl () {
       if (this.editingUrlError) {
         this.editingUrlError = false
       }
@@ -221,10 +185,10 @@ export default {
   methods: {
     ...mapMutations(['updateView']),
     ...mapActions(['updateConfig', 'updateConfigs', 'updateSubscribes']),
-    selectRows(rows) {
+    selectRows (rows) {
       this.selectedRows = rows
     },
-    onRowDBClick(row, index) {
+    onRowDBClick (row, index) {
       if (this.editingRowIndex < 0) {
         this.editingRowIndex = index
         this.editingRowUrl = row.URL
@@ -237,68 +201,61 @@ export default {
           .focus()
       })
     },
-    onUpdateChange(v) {
+    onUpdateChange (v) {
       this.updateConfig({ autoUpdateSubscribes: v })
     },
-    onChangeCycleNumber(v) {
+    onChangeCycleNumber (v) {
       const value = parseInt(v) || 1
       this.updateConfig({
         subscribeUpdateInterval: value * unitMap[this.cycle.unit],
       })
     },
-    onChangeCycleUnit(v) {
+    onChangeCycleUnit (v) {
       this.updateConfig({
         subscribeUpdateInterval: this.cycle.number * unitMap[v],
       })
     },
-    update() {
+    update () {
       this.loading = true
       this.updateSubscribes(this.selectedRows).then(updatedCount => {
         this.loading = false
         this.$Message.success(`已更新${updatedCount}个节点`)
       })
     },
-    remove() {
+    remove () {
       const removeGroup = this.selectedRows.map(row => row.Group)
-      const clone = this.appConfig.serverSubscribes.filter(
-        config => removeGroup.indexOf(config.Group) < 0
-      )
+      const clone = this.appConfig.serverSubscribes.filter(config => removeGroup.indexOf(config.Group) < 0)
       this.updateConfig({ serverSubscribes: clone })
       this.selectedRows = []
     },
     // 同时使用electron的net和fetch api请求
-    requestSubscribeUrl(url) {
-      return somePromise([
-        request(url, true),
-        fetch(url).then(res => res.text()),
-      ])
+    requestSubscribeUrl (url) {
+      return somePromise([request(url, true), fetch(url).then(res => res.text())])
     },
     // 根据订阅返回的节点数据更新ssr配置项
-    updateSubscribedConfigs(configs) {
+    updateSubscribedConfigs (configs) {
       const group = configs[0].group
-      const notInGroup = this.appConfig.configs.filter(
-        config => config.group !== group
-      )
+      const notInGroup = this.appConfig.configs.filter(config => config.group !== group)
       this.updateConfigs(notInGroup.concat(configs))
     },
-    onCreate() {
+    onCreate () {
       this.showNewUrl = true
       this.$nextTick(() => {
         this.$refs.input.focus()
       })
     },
-    cancel() {
+    cancel () {
       this.showNewUrl = false
       this.url = ''
       this.urlError = false
       this.updateView({ active: false })
     },
-    cancelEditing() {
+    cancelEditing () {
       this.editingRowIndex = -1
       this.editingRowUrl = ''
       this.editingUrlError = false
     },
-    save() {
+    save () {
       if (URL_REGEX.test(this.url)) {
         this.loading = true
         const url = this.url
@@ -339,7 +296,7 @@ export default {
       }
     },
   },
-  mounted() {
+  mounted () {
     // 支持初始化打开新增输入框
     if (this.$store.state.view.active) {
       this.showNewUrl = true

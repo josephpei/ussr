@@ -9,7 +9,7 @@ function getImage (name, template = true, highlight = false) {
       __static,
       '/assets/',
       `${name}${
-        isMac && template ? (highlight ? 'Highlight' : 'Template') : ''
+      isMac && template ? (highlight ? 'Highlight' : 'Template') : ''
       }.png`
     )
   )

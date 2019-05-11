@@ -1,13 +1,8 @@
 <template>
   <span class="edit-tag">
-    <Tag
-      v-if="!isEditing"
-      :name="name"
-      closable
-      @dblclick.native="isEditing = true"
-      @on-close="$emit('on-close', name)"
-      >{{ name }}</Tag
-    >
+    <Tag v-if="!isEditing" :name="name" closable @dblclick.native="isEditing = true" @on-close="$emit('on-close', name)"
+      >{{ name }}
+    </Tag>
     <Input
       v-else
       v-model="editingName"
@@ -24,24 +19,24 @@ export default {
   props: {
     name: String,
   },
-  data() {
+  data () {
     return {
       isEditing: false,
       editingName: this.name,
     }
   },
   watch: {
-    name(v) {
+    name (v) {
       this.editingName = v
     },
   },
   methods: {
-    cancel() {
+    cancel () {
       this.isEditing = false
       this.editingName = this.name
       this.$emit('on-cancel')
     },
-    save() {
+    save () {
       if (this.editingName) {
         this.isEditing = false
         this.$emit('on-update', this.editingName)

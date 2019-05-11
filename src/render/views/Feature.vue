@@ -19,14 +19,8 @@
       </i-col>
     </Row>
     <div class="flex flex-ai-center mt-64">
-      <Checkbox v-model="autoDownload" @on-change="updateAutoDownload"
-        >自动下载SSR</Checkbox
-      >
-      <Tooltip
-        placement="top"
-        content="勾选上后将自动下载python ssr"
-        style="margin-top:2px"
-      >
+      <Checkbox v-model="autoDownload" @on-change="updateAutoDownload">自动下载SSR</Checkbox>
+      <Tooltip placement="top" content="勾选上后将自动下载python ssr" style="margin-top:2px">
         <Icon color="#495060" type="help-circled"></Icon>
       </Tooltip>
     </div>
@@ -39,7 +33,7 @@ import IconFunctions from '../assets/icon_functions.svg'
 import IconOpen from '../assets/icon_open_source.svg'
 import { STORE_KEY_FEATURE, STORE_KEY_AUTO_DOWNLOAD } from '../constants'
 export default {
-  data() {
+  data () {
     return {
       autoDownload: true,
     }
@@ -50,21 +44,22 @@ export default {
     IconOpen,
   },
   methods: {
-    updateAutoDownload(v) {
+    updateAutoDownload (v) {
       localStorage.setItem(STORE_KEY_AUTO_DOWNLOAD, v ? '1' : '0')
     },
-    done() {
+    done () {
       localStorage.setItem(STORE_KEY_FEATURE, 'read')
       this.$emit('finished')
     },
   },
-  created() {
+  created () {
     this.updateAutoDownload(true)
   },
 }
 </script>
 <style lang="stylus">
 @import '../assets/styles/variable.styl'
+
 .view-feature
   .mt-64
     margin-top 64px
