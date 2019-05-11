@@ -18,6 +18,9 @@ httpShutdown.extend()
 
 /**
  * 下载pac文件
+ * 备用地址
+ * https://github.com/petronny/gfwlist2pac
+ * https://github.com/ACL4SSR/ACL4SSR/blob/master/banAD.acl
  */
 export async function downloadPac (force = false) {
   await bootstrapPromise
