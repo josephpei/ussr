@@ -25,7 +25,7 @@
     "iview": "^3.0.1",
     "mousetrap": "^1.6.3",
     "qr-image": "^3.2.0",
-    "rxjs": "^5.5.5",
+    "rxjs": "^6.5.2",
     "simple-web-proxy": "^0.2.0",
     "sudo-prompt": "^8.2.5",
     "urlsafe-base64": "^1.0.0",
@@ -57,7 +57,10 @@
       "@vue/prettier"
     ],
     "rules": {
-      "space-before-function-paren": ["error", "always"],
+      "space-before-function-paren": [
+        "error",
+        "always"
+      ],
       "no-console": 0
     },
     "parserOptions": {

@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs/Observable'
-import { Subject } from 'rxjs/Subject'
-import 'rxjs/add/operator/multicast'
+import { Observable } from 'rxjs'
+import { share } from 'rxjs/operators'
 import { readJson, writeJson } from 'fs-extra'
 import bootstrap, { appConfigPath } from './bootstrap'
 import { sendData } from './window'
@@ -34,9 +33,8 @@ async function init () {
 }
 
 // 支持多播
-const subject = new Subject()
 let _observe
-const source = Observable.create(observe => {
+const source = new Observable(observe => {
   _observe = observe
   // 初始化数据
   promise = init().then(data => {
@@ -60,11 +58,7 @@ export function isProxyStarted (appConfig) {
  * 统一使用该接口从外部更新应用配置
  * @param {Object} targetConfig 要更新的配置
  */
-export function updateAppConfig (
-  targetConfig,
-  fromRenderer = false,
-  forceAppendArray = false
-) {
+export function updateAppConfig (targetConfig, fromRenderer = false, forceAppendArray = false) {
   const changedKeys = getUpdatedKeys(currentConfig, targetConfig)
   // 只有有数据变更才更新配置
   if (changedKeys.length) {
@@ -88,16 +82,14 @@ export function updateAppConfig (
 export function addConfigs (configs) {
   updateAppConfig(
     {
-      configs: currentConfig.configs.concat(
-        isArray(configs) ? configs : [configs]
-      ),
+      configs: currentConfig.configs.concat(isArray(configs) ? configs : [configs]),
     },
     false,
     true
   )
 }
 
-export const appConfig$ = source.multicast(subject).refCount()
+export const appConfig$ = source.pipe(share())
 
 // 传参用于设定是退出应用还是关闭窗口 不传参表示返回当前状态
 export function isQuiting (target) {
