@@ -26,7 +26,9 @@ export function createWindow () {
     icon: path.join(__static, 'icon.png'),
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: process.env.NODE_ENV !== 'development',
+      webSecurity: false,
+      // CORS error
+      // webSecurity: process.env.NODE_ENV !== 'development',
     },
   })
   mainWindow.setMenuBarVisibility(false)
