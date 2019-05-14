@@ -41,15 +41,15 @@ ipcMain
     logger.debug(`received sync data: ${data}`)
     updateAppConfig(data, true)
   })
-  //   .on(events.EVENT_SSR_DOWNLOAD_RENDERER, e => {
+  .on(events.EVENT_SSR_DOWNLOAD_RENDERER, e => {
   //   // 下载ssr
   //   logger.info('start download ssr')
   //   // 自动下载ssr项目
   //   downloadGitRepo(`shadowsocksr-backup/shadowsocksr#dev`, defaultSSRDownloadDir, err => {
   //     logger[err ? 'error' : 'info'](`ssr download ${err ? 'error' : 'success'}`)
-  //     e.sender.send(events.EVENT_SSR_DOWNLOAD_MAIN, err ? err.message : null)
+    e.sender.send(events.EVENT_SSR_DOWNLOAD_MAIN, 'failed to download ssr-n')
   //   })
-  // })
+  })
   .on(events.EVENT_CONFIG_COPY_CLIPBOARD, () => {
     logger.info('import config from clipboard')
     // 从剪切板导入

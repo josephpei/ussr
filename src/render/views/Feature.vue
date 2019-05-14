@@ -35,7 +35,7 @@ import { STORE_KEY_FEATURE, STORE_KEY_AUTO_DOWNLOAD } from '../constants'
 export default {
   data () {
     return {
-      autoDownload: true,
+      autoDownload: false,
     }
   },
   components: {
