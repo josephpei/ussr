@@ -31,7 +31,7 @@
 import { ipcRenderer } from 'electron'
 import { join } from 'path'
 import { mapState, mapMutations } from 'vuex'
-import ls from '../store'
+import { ls } from '../store'
 import { openDialog } from '../ipc'
 import { isSSRPathAvaliable } from '../../shared/utils'
 import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'

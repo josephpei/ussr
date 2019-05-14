@@ -31,7 +31,7 @@ const views = ['Feature', 'Setup', 'ManagePanel', 'Options']
 // 编辑组的名称
 let groupTitleBak = ''
 // 功能页面是否已展示过
-export const ls = new Store()
+const ls = new Store()
 // window.localStorage
 // const featureReaded = !!ls.getItem(STORE_KEY_FEATURE)
 const featureReaded = !!ls.get(STORE_KEY_FEATURE)
@@ -104,6 +104,8 @@ if (storedObfses) {
   ]
   ls.set(STORE_KEY_SSR_OBFSES, JSON.stringify(obfses))
 }
+
+export { ls }
 
 export default new Vuex.Store({
   state: {

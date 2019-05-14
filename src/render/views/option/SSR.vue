@@ -62,7 +62,7 @@ import { mapState, mapMutations } from 'vuex'
 import EditTag from '../../components/EditTag'
 import { STORE_KEY_SSR_TIP } from '../../constants'
 // const ls = window.localStorage
-import ls from '../../store'
+import { ls } from '../../store'
 export default {
   data () {
     return {
