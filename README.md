@@ -2,9 +2,9 @@
 
 Fork from [electron-ssr](https://github.com/erguotou520/electron-ssr)
 
-SSR [ssr-n](https://github.com/ShadowsocksR-Live/shadowsocksr-native)
+This project's SSR implement uses [ssr-n](https://github.com/ShadowsocksR-Live/shadowsocksr-native), you must clone and build it manually.
 
-Select folder has file `ssr-local`
+Select folder has file `ssr-local`, the release file `ssr-local` was built on Ubuntu 18.04.
 
 Just for study!
 

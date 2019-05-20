@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import Base64 from 'urlsafe-base64'
 import { loadConfigsFromString } from './ssr'
+import { isWin } from './env'
 
 const STRING_PROTOTYPE = '[object String]'
 const NUMBER_PROTOTYPE = '[object Number]'
@@ -254,12 +255,13 @@ export function groupConfigs (configs, selectedIndex) {
 }
 
 /**
- * 判断选择的local.py的路径是否正确
- * @param {*String} path local.py所在的目录
+ * 判断选择的 ssr-local 的路径是否正确
+ * @param {*String} path ssr-local所在的目录
  */
 export function isSSRPathAvaliable (folderPath) {
   // const localPyPath = path.join(folderPath, 'local.py')
-  const localPyPath = path.join(folderPath, 'ssr-local')
+  let ssrFile = isWin ? 'ssr-local.exe' : 'ssr-local'
+  const localPyPath = path.join(folderPath, ssrFile)
   console.log(localPyPath, fs.existsSync(localPyPath))
   return fs.existsSync(localPyPath)
 }

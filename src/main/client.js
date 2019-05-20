@@ -7,6 +7,7 @@ import { isHostPortValid } from './port'
 import logger from './logger'
 import { isConfigEqual } from '../shared/utils'
 import { showNotification } from './notification'
+import { isWin } from '../shared/env'
 let child
 
 /**
@@ -46,7 +47,8 @@ export async function run (appConfig) {
   const config = appConfig.configs[appConfig.index]
   // 参数
   // const params = [path.join(appConfig.ssrPath, 'local.py')]
-  const command = path.join(appConfig.ssrPath, 'ssr-local')
+  let ssrFile = isWin ? 'ssr-local.exe' : 'ssr-local'
+  const command = path.join(appConfig.ssrPath, ssrFile)
   const params = []
   params.push('-s')
   params.push(config.server)
