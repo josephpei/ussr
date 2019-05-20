@@ -4,13 +4,7 @@ import { ensureDir, pathExists, outputJson } from 'fs-extra'
 import logger from './logger'
 import sudo from 'sudo-prompt'
 import defaultConfig from '../shared/config'
-import {
-  isWin,
-  isMac,
-  isLinux,
-  isOldMacVersion,
-  isPythonInstalled,
-} from '../shared/env'
+import { isWin, isMac, isLinux, isOldMacVersion, isPythonInstalled } from '../shared/env'
 import { init as initIcon } from '../shared/icon'
 
 // app ready事件
@@ -53,10 +47,7 @@ export const defaultSSRDownloadDir = path.join(appConfigDir, 'shadowsocksr')
 // pac文件下载目录
 export const pacPath = path.join(appConfigDir, 'pac.txt')
 // 记录上次订阅更新时间的文件
-export const subscribeUpdateFile = path.join(
-  appConfigDir,
-  '.subscribe.update.last'
-)
+export const subscribeUpdateFile = path.join(appConfigDir, '.subscribe.update.last')
 // 当前可执行程序的路径
 export const exePath = app.getPath('exe')
 // windows sysproxy.exe文件的路径
@@ -80,17 +71,13 @@ export const macToolPath = path.resolve(appConfigDir, 'proxy_conf_helper')
 // 在mac上执行sudo命令
 async function sudoMacCommand (command) {
   return new Promise((resolve, reject) => {
-    sudo.exec(
-      command,
-      { name: 'ShadowsocksR Client' },
-      (error, stdout, stderr) => {
-        if (error || stderr) {
-          reject(error || stderr)
-        } else {
-          resolve(stdout)
-        }
+    sudo.exec(command, { name: 'ShadowsocksR Client' }, (error, stdout, stderr) => {
+      if (error || stderr) {
+        reject(error || stderr)
+      } else {
+        resolve(stdout)
       }
-    )
+    })
   })
 }
 

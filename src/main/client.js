@@ -16,10 +16,7 @@ let child
 export function runCommand (command, params) {
   if (command && params.length) {
     const commandStr = `${command} ${params.join(' ')}`
-    logger.info(
-      'run command: %s',
-      commandStr.replace(/-k [\d\w]* /, '-k ****** ')
-    )
+    logger.info('run command: %s', commandStr.replace(/-k [\d\w]* /, '-k ****** '))
     child = execFile(command, params)
     child.stdout.on('data', logger.info)
     child.stderr.on('data', logger.error)
@@ -101,8 +98,7 @@ export function stop (force = false) {
       const timeout = setTimeout(() => {
         // 5m内如果还没有关掉仍然resolve
         logger.error(`进程 ${child.pid} 可能无法关闭`)
-        !force &&
-          showNotification(`进程 ${child.pid} 可能无法关闭，尝试手动关闭`)
+        !force && showNotification(`进程 ${child.pid} 可能无法关闭，尝试手动关闭`)
         resolve()
       }, 5000)
       process.kill(child.pid, 'SIGKILL')
@@ -128,12 +124,7 @@ export function stop (force = false) {
  * @param {Object} appConfig 应用配置
  */
 export function runWithConfig (appConfig) {
-  if (
-    appConfig.ssrPath &&
-    appConfig.enable &&
-    appConfig.configs &&
-    appConfig.configs[appConfig.index]
-  ) {
+  if (appConfig.ssrPath && appConfig.enable && appConfig.configs && appConfig.configs[appConfig.index]) {
     run(appConfig)
   }
 }
@@ -152,11 +143,7 @@ appConfig$.subscribe(data => {
         stop()
       }
     } else if (appConfig.enable) {
-      if (
-        ['ssrPath', 'index', 'localPort', 'shareOverLan'].some(
-          key => changed.indexOf(key) > -1
-        )
-      ) {
+      if (['ssrPath', 'index', 'localPort', 'shareOverLan'].some(key => changed.indexOf(key) > -1)) {
         runWithConfig(appConfig)
       }
       if (changed.indexOf('configs') > -1) {
@@ -166,12 +153,7 @@ appConfig$.subscribe(data => {
         } else if (!oldConfig.configs.length) {
           // configs由空到有
           runWithConfig(appConfig)
-        } else if (
-          !isConfigEqual(
-            appConfig.configs[appConfig.index],
-            oldConfig.configs[oldConfig.index]
-          )
-        ) {
+        } else if (!isConfigEqual(appConfig.configs[appConfig.index], oldConfig.configs[oldConfig.index])) {
           // 只有选中的配置发生改变时才重新运行
           runWithConfig(appConfig)
         }

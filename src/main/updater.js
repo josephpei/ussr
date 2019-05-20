@@ -17,9 +17,7 @@ autoUpdater
     showNotification(err ? err.stack || err : 'unknown', '检查更新失败')
   })
   .on('update-available', UpdateInfo => {
-    showNotification(
-      `检测到最新版本${UpdateInfo.version}，系统将自动下载并更新`
-    )
+    showNotification(`检测到最新版本${UpdateInfo.version}，系统将自动下载并更新`)
     autoUpdater.downloadUpdate()
   })
   .on('download-progress', ({ percent }) => {
@@ -59,30 +57,21 @@ export function versionCheck (oldVersion, newVersion) {
     return true
   } else {
     // 0.2.0-beta-1 vs 0.2.0-beta-2
-    return (
-      `${newArr[1]}${newArr[2] ? newArr[2] : ''}` >
-      `${oldArr[1]}${oldArr[2] ? oldArr[2] : ''}`
-    )
+    return `${newArr[1]}${newArr[2] ? newArr[2] : ''}` > `${oldArr[1]}${oldArr[2] ? oldArr[2] : ''}`
   }
 }
 
 // 检查更新
 export function checkUpdate (force = false) {
   if (isLinux && !/\.AppImage&/.test(exePath)) {
-    request(
-      'https://raw.githubusercontent.com/josephpei/ussr/master/package.json'
-    ).then(data => {
+    request('https://raw.githubusercontent.com/josephpei/ussr/master/package.json').then(data => {
       const remotePkg = JSON.parse(data)
       const currentVersion = app.getVersion()
       const isOutdated = versionCheck(currentVersion, remotePkg.version)
       if (isOutdated) {
-        showNotification(
-          `最新版本为 v${remotePkg.version}，点击前往下载。`,
-          '通知',
-          () => {
-            shell.openExternal('https://github.com/josephpei/ussr/releases')
-          }
-        )
+        showNotification(`最新版本为 v${remotePkg.version}，点击前往下载。`, '通知', () => {
+          shell.openExternal('https://github.com/josephpei/ussr/releases')
+        })
       } else if (force) {
         showNotification('当前已是最新版，无需更新')
       }

@@ -120,10 +120,7 @@ appConfig$.subscribe(data => {
       if (appConfig.sysProxyMode === 1 && changed.indexOf('pacPort') > -1) {
         // pacPort变更时
         startProxy(1)
-      } else if (
-        appConfig.sysProxyMode === 2 &&
-        changed.indexOf('localPort') > -1
-      ) {
+      } else if (appConfig.sysProxyMode === 2 && changed.indexOf('localPort') > -1) {
         // localPort变更时
         startProxy(2)
       }

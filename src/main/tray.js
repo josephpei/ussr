@@ -26,9 +26,7 @@ function generateConfigSubmenus (configs, selectedIndex) {
   const submenus = Object.keys(groups).map(key => {
     const groupedConfigs = groups[key]
     return {
-      label: `${
-        groupedConfigs.some(config => config.checked) ? '● ' : ''
-      }${key}`,
+      label: `${groupedConfigs.some(config => config.checked) ? '● ' : ''}${key}`,
       submenu: groupedConfigs.map(config => {
         return {
           id: config.id,
@@ -41,9 +39,7 @@ function generateConfigSubmenus (configs, selectedIndex) {
               // 点击的是当前节点
               e.checked = true
             } else {
-              handler.switchConfig(
-                configs.findIndex(config => config.id === e.id)
-              )
+              handler.switchConfig(configs.findIndex(config => config.id === e.id))
             }
           },
         }
@@ -182,9 +178,7 @@ function getTooltip (appConfig) {
   if (selectedConfig) {
     arr.push('\n')
     arr.push(
-      `${
-        selectedConfig.group ? selectedConfig.group + ' - ' : ''
-      }${selectedConfig.remarks ||
+      `${selectedConfig.group ? selectedConfig.group + ' - ' : ''}${selectedConfig.remarks ||
         selectedConfig.server + ':' + selectedConfig.server_port}`
     )
   }
@@ -249,11 +243,7 @@ appConfig$.subscribe(data => {
   if (!changed.length) {
     renderTray(appConfig)
   } else {
-    if (
-      ['configs', 'index', 'enable', 'sysProxyMode'].some(
-        key => changed.indexOf(key) > -1
-      )
-    ) {
+    if (['configs', 'index', 'enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {
       updateTray(appConfig)
     }
     if (['enable', 'sysProxyMode'].some(key => changed.indexOf(key) > -1)) {

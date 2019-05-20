@@ -32,6 +32,7 @@ import IconCross from '../assets/icon_cross_platform.svg'
 import IconFunctions from '../assets/icon_functions.svg'
 import IconOpen from '../assets/icon_open_source.svg'
 import { STORE_KEY_FEATURE, STORE_KEY_AUTO_DOWNLOAD } from '../constants'
+import { ls } from '../store'
 export default {
   data () {
     return {
@@ -45,10 +46,10 @@ export default {
   },
   methods: {
     updateAutoDownload (v) {
-      localStorage.setItem(STORE_KEY_AUTO_DOWNLOAD, v ? '1' : '0')
+      ls.set(STORE_KEY_AUTO_DOWNLOAD, v ? '1' : '0')
     },
     done () {
-      localStorage.setItem(STORE_KEY_FEATURE, 'read')
+      ls.set(STORE_KEY_FEATURE, 'read')
       this.$emit('finished')
     },
   },

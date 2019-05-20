@@ -72,12 +72,8 @@ bootstrap.then(() => {
         .then(enabled => {
           // 状态不相同时
           if (appConfig.autoLaunch !== enabled) {
-            return AutoLauncher[
-              appConfig.autoLaunch ? 'enable' : 'disable'
-            ]().catch(() => {
-              logger.error(
-                `${appConfig.autoLaunch ? '执行' : '取消'}开机自启动失败`
-              )
+            return AutoLauncher[appConfig.autoLaunch ? 'enable' : 'disable']().catch(() => {
+              logger.error(`${appConfig.autoLaunch ? '执行' : '取消'}开机自启动失败`)
             })
           }
         })

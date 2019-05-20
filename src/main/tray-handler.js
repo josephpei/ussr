@@ -53,9 +53,7 @@ export function openOptionsWindow () {
 
 // 导入配置文件
 export function importConfigFromFile () {
-  const _path = chooseFile('选择gui-config.json', [
-    { name: 'Json', extensions: ['json'] },
-  ])
+  const _path = chooseFile('选择gui-config.json', [{ name: 'Json', extensions: ['json'] }])
   if (_path) {
     readJson(_path)
       .then(fileConfig => {
@@ -79,9 +77,7 @@ export function importConfigFromClipboard () {
   if (parsed.length) {
     updateAppConfig({ configs: [...currentConfig.configs, ...parsed] })
   }
-  showNotification(
-    parsed.length ? `已导入${parsed.length}条数据` : '从剪贴板中导入失败'
-  )
+  showNotification(parsed.length ? `已导入${parsed.length}条数据` : '从剪贴板中导入失败')
 }
 
 // 打开配置文件
@@ -116,9 +112,7 @@ export function showManagePanel () {
 
 // 复制http代理命令行代码
 export function copyHttpProxyCode () {
-  clipboard.writeText(`export http_proxy="http://127.0.0.1:${
-    currentConfig.httpProxyPort
-  }"
+  clipboard.writeText(`export http_proxy="http://127.0.0.1:${currentConfig.httpProxyPort}"
 export https_proxy="http://127.0.0.1:${currentConfig.httpProxyPort}"
 `)
 }

@@ -220,14 +220,9 @@ export default new Vuex.Store({
     updateConfig ({ getters, commit }, targetConfig) {
       let index
       if (targetConfig.configs && getters.selectedConfig) {
-        index = targetConfig.configs.findIndex(
-          config => config.id === getters.selectedConfig.id
-        )
+        index = targetConfig.configs.findIndex(config => config.id === getters.selectedConfig.id)
       }
-      const correctConfig =
-        index !== undefined && index > -1
-          ? { ...targetConfig, index }
-          : targetConfig
+      const correctConfig = index !== undefined && index > -1 ? { ...targetConfig, index } : targetConfig
       commit('updateConfig', [correctConfig, true])
     },
     updateConfigs ({ dispatch }, _configs) {
@@ -258,10 +253,7 @@ export default new Vuex.Store({
       let updatedCount = 0
       return Promise.all(
         updateSubscribes.map(subscribe => {
-          return somePromise([
-            request(subscribe.URL, true),
-            fetch(subscribe.URL).then(res => res.text()),
-          ]).then(res => {
+          return somePromise([request(subscribe.URL, true), fetch(subscribe.URL).then(res => res.text())]).then(res => {
             const [groupCount, groupConfigs] = isSubscribeContentValid(res)
             if (groupCount > 0) {
               for (const groupName in groupConfigs) {
@@ -280,9 +272,7 @@ export default new Vuex.Store({
                 })
                 // 原组中没有发生变更的节点
                 const oldNotChangedConfigs = groupedConfigs.filter(config => {
-                  const i = configs.findIndex(_config =>
-                    isConfigEqual(config, _config)
-                  )
+                  const i = configs.findIndex(_config => isConfigEqual(config, _config))
                   if (i > -1) {
                     // 未发生实际更新的节点删除
                     configs.splice(i, 1)
@@ -291,12 +281,7 @@ export default new Vuex.Store({
                   return false
                 })
                 if (configs.length) {
-                  dispatch(
-                    'updateConfigs',
-                    oldNotChangedConfigs
-                      .concat(configs)
-                      .concat(notInGroupConfigs)
-                  )
+                  dispatch('updateConfigs', oldNotChangedConfigs.concat(configs).concat(notInGroupConfigs))
                   updatedCount += configs.length
                 } else {
                   console.log('订阅节点并未发生变更')
@@ -312,7 +297,6 @@ export default new Vuex.Store({
   },
   getters: {
     selectedConfig: state => state.appConfig.configs[state.appConfig.index],
-    isEditingConfigUpdated: state =>
-      !isConfigEqual(state.editingConfigBak, state.editingConfig),
+    isEditingConfigUpdated: state => !isConfigEqual(state.editingConfigBak, state.editingConfig),
   },
 })

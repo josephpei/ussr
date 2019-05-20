@@ -65,8 +65,7 @@ export default class Config {
     ]
     const others = []
     this.obfsparam && others.push(`obfsparam=${encode(this.obfsparam)}`)
-    this.protocolparam &&
-      others.push(`protoparam=${encode(this.protocolparam)}`)
+    this.protocolparam && others.push(`protoparam=${encode(this.protocolparam)}`)
     this.remarks && others.push(`remarks=${encode(this.remarks)}`)
     this.group && others.push(`group=${encode(this.group)}`)
     const link = `ssr://${encode(required.join(':') + '/?' + others.join('&'))}`
@@ -101,9 +100,7 @@ export default class Config {
   }
 
   getSSLink () {
-    const link = `${this.method}:${this.password}@${this.server}:${
-      this.server_port
-    }`
+    const link = `${this.method}:${this.password}@${this.server}:${this.server_port}`
     const encoded = encode(link)
     return `ss://${encoded}${this.remarks ? '#' + this.remarks : ''}`
   }

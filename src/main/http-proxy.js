@@ -25,9 +25,7 @@ export function startHttpProxyServer (appConfig, isProxyStarted) {
         })
           .withShutdown()
           .on('listening', () => {
-            logger.info(
-              `http proxy server listen at: ${host}:${appConfig.httpProxyPort}`
-            )
+            logger.info(`http proxy server listen at: ${host}:${appConfig.httpProxyPort}`)
           })
           .on('connect:error', err => {
             logger.error(`http proxy server connect error: ${err}`)
@@ -76,9 +74,7 @@ appConfig$.subscribe(data => {
   } else {
     // 数据变更
     if (
-      ['shareOverLan', 'httpProxyEnable', 'httpProxyPort'].some(
-        key => changed.indexOf(key) > -1
-      ) ||
+      ['shareOverLan', 'httpProxyEnable', 'httpProxyPort'].some(key => changed.indexOf(key) > -1) ||
       isProxyStarted !== isOldProxyStarted
     ) {
       stopHttpProxyServer().then(() => {

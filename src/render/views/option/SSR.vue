@@ -81,7 +81,7 @@ export default {
   methods: {
     ...mapMutations(['updateView', 'updateMethods', 'updateProtocols', 'updateObfses',]),
     closeTip () {
-      ls.setItem(STORE_KEY_SSR_TIP, true)
+      ls.set(STORE_KEY_SSR_TIP, true)
     },
     addMethod () {
       if (this.method) {

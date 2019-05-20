@@ -27,9 +27,7 @@ export async function downloadPac (force = false) {
   const pacExisted = await pathExists(pacPath)
   if (force || !pacExisted) {
     logger.debug('start download pac')
-    const pac = await request(
-      'https://raw.githubusercontent.com/erguotou520/pac.txt/pac/pac.txt'
-    )
+    const pac = await request('https://raw.githubusercontent.com/erguotou520/pac.txt/pac/pac.txt')
     pacContent = pac
     return await writeFile(pacPath, pac)
   }
@@ -51,10 +49,7 @@ function readPac () {
 export async function serverPac (appConfig, isProxyStarted) {
   if (isProxyStarted) {
     const host = currentConfig.shareOverLan ? '0.0.0.0' : '127.0.0.1'
-    const port =
-      appConfig.pacPort !== undefined
-        ? appConfig.pacPort
-        : currentConfig.pacPort || 1240
+    const port = appConfig.pacPort !== undefined ? appConfig.pacPort : currentConfig.pacPort || 1240
     isHostPortValid(host, port)
       .then(() => {
         pacServer = http
@@ -73,14 +68,10 @@ export async function serverPac (appConfig, isProxyStarted) {
                   res.write(
                     text.replace(
                       /__PROXY__/g,
-                      `SOCKS5 127.0.0.1:${
-                        appConfig.localPort
-                      }; SOCKS 127.0.0.1:${
+                      `SOCKS5 127.0.0.1:${appConfig.localPort}; SOCKS 127.0.0.1:${
                         appConfig.localPort
                       }; PROXY 127.0.0.1:${appConfig.localPort}; ${
-                        appConfig.httpProxyEnable
-                          ? 'PROXY 127.0.0.1:' + appConfig.httpProxyPort + ';'
-                          : ''
+                        appConfig.httpProxyEnable ? 'PROXY 127.0.0.1:' + appConfig.httpProxyPort + ';' : ''
                       } DIRECT`
                     )
                   )
@@ -138,10 +129,7 @@ appConfig$.subscribe(data => {
   if (changed.length === 0) {
     serverPac(appConfig, isProxyStarted)
   } else {
-    if (
-      changed.indexOf('pacPort') > -1 ||
-      isProxyStarted !== isOldProxyStarted
-    ) {
+    if (changed.indexOf('pacPort') > -1 || isProxyStarted !== isOldProxyStarted) {
       stopPacServer().then(() => {
         serverPac(appConfig, isProxyStarted)
       })

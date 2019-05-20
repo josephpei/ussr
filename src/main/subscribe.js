@@ -91,11 +91,7 @@ appConfig$.subscribe(data => {
   if (changed.length === 0) {
     startTask(appConfig, true)
   } else {
-    if (
-      ['autoUpdateSubscribes', 'subscribeUpdateInterval'].some(
-        key => changed.indexOf(key) > -1
-      )
-    ) {
+    if (['autoUpdateSubscribes', 'subscribeUpdateInterval'].some(key => changed.indexOf(key) > -1)) {
       startTask(appConfig)
     }
   }

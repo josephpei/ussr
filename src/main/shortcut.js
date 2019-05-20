@@ -65,22 +65,15 @@ app.on('ready', () => {
       // 注册，并返回注册失败的
       const failed = Object.keys(appConfig.globalShortcuts).filter(funcName => {
         if (appConfig.globalShortcuts[funcName].enable) {
-          return !registerShortcut(
-            funcName,
-            appConfig.globalShortcuts[funcName].key
-          )
+          return !registerShortcut(funcName, appConfig.globalShortcuts[funcName].key)
         }
         return false
       })
       if (failed.length) {
-        showNotification(
-          `检测到${failed.length}个全局快捷键注册失败，请在快捷键页面重新设置`,
-          '错误',
-          () => {
-            showWindow()
-            sendData(EVENT_APP_SHOW_PAGE, { page: 'Options', tab: 'shortcuts' })
-          }
-        )
+        showNotification(`检测到${failed.length}个全局快捷键注册失败，请在快捷键页面重新设置`, '错误', () => {
+          showWindow()
+          sendData(EVENT_APP_SHOW_PAGE, { page: 'Options', tab: 'shortcuts' })
+        })
       }
     } else {
       if (changed.indexOf('globalShortcuts') > -1) {
@@ -89,16 +82,8 @@ app.on('ready', () => {
           const oldShortcut = oldConfig.globalShortcuts[funcName]
           const newShortcut = appConfig.globalShortcuts[funcName]
           // 配置项变更时才更新快捷键
-          if (
-            oldShortcut.key !== newShortcut.key ||
-            oldShortcut.enable !== newShortcut.enable
-          ) {
-            switchRegister(
-              funcName,
-              newShortcut.enable,
-              oldShortcut.key,
-              newShortcut.key
-            )
+          if (oldShortcut.key !== newShortcut.key || oldShortcut.enable !== newShortcut.enable) {
+            switchRegister(funcName, newShortcut.enable, oldShortcut.key, newShortcut.key)
           }
         })
       }

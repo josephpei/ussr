@@ -135,9 +135,7 @@ export function getUpdatedKeys (appConfig = {}, targetConfig) {
         }
         return (
           appConfig[key].length !== value.length ||
-          appConfig[key].some(
-            (item, index) => getUpdatedKeys(item, value[index]).length > 0
-          )
+          appConfig[key].some((item, index) => getUpdatedKeys(item, value[index]).length > 0)
         )
       default:
         return appConfig[key] !== value

@@ -37,8 +37,5 @@ export function isHostPortValid (host, port) {
  * @param {Number|String} port 要判断的端口
  */
 export function isPortValid (port) {
-  return Promise.all([
-    isHostPortValid('0.0.0.0', port),
-    isHostPortValid('127.0.0.1', port),
-  ])
+  return Promise.all([isHostPortValid('0.0.0.0', port), isHostPortValid('127.0.0.1', port)])
 }
