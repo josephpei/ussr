@@ -54,7 +54,7 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "@vue/prettier"
+      "eslint:recommended"
     ],
     "rules": {
       "space-before-function-paren": [
