@@ -42,8 +42,9 @@
       </i-input>
     </div>
     <div class="flex mt-2 flex-jc-center">
-      <Button class="w-6r" type="default" @click="cancel">取消</Button>
-      <Button class="w-6r ml-3" type="primary" @click="save">确定</Button>
+      <Button class="w-6r" type="info" @click="gotoOptions">参数设置</Button>
+      <!-- <Button class="w-6r" type="default" @click="cancel">取消</Button>
+      <Button class="w-6r ml-3" type="primary" @click="save">确定</Button> -->
     </div>
   </div>
 </template>
@@ -137,6 +138,11 @@ export default {
     },
     clickoutside () {
       this.contextmenu.show = false
+    },
+    gotoOptions () {
+      // this.resetState()
+      // hideWindow()
+      this.$store.commit('nextView')
     },
     cancel () {
       this.resetState()
