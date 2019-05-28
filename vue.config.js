@@ -23,5 +23,5 @@ module.exports = {
       mainProcessWatch: ['src/main'],
     },
   },
-  // productionSourceMap: false,
+  productionSourceMap: false,
 }
