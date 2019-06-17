@@ -89,7 +89,7 @@ export default {
                 nativeOn: {
                   keyup (e) {
                     if (e.keyCode === 13) {
-                      const url = self.editingRowUrl
+                      const url = e.target.value
                       // 未发生改变
                       if (url === self.appConfig.serverSubscribes[params.index].URL) {
                         self.cancelEditing()
@@ -117,7 +117,7 @@ export default {
                               })
                               self.updateConfig({
                                 serverSubscribes: clone,
-                                configs: self.appConfig.configs.concat(configs),
+                                configs: configs,
                               })
                             }
                           })
