@@ -258,6 +258,7 @@ export default new Vuex.Store({
             if (groupCount > 0) {
               for (const groupName in groupConfigs) {
                 const configs = groupConfigs[groupName]
+                const count = configs.length
                 const group = configs[0].group
                 // 更新的组下面原来的配置
                 const groupedConfigs = []
@@ -280,7 +281,8 @@ export default new Vuex.Store({
                   }
                   return false
                 })
-                if (configs.length) {
+                const deleted = groupedConfigs.length - oldNotChangedConfigs.length
+                if (configs.length || deleted !== count) {
                   dispatch('updateConfigs', oldNotChangedConfigs.concat(configs).concat(notInGroupConfigs))
                   updatedCount += configs.length
                 } else {
