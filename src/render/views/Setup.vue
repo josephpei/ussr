@@ -1,18 +1,9 @@
 <template>
   <AppView name="setup" class="px-2">
-    <template v-if="(autoDownload || manualDownload) && !autoError">
-      <Spin />
-      <p class="text-center mt-1">
-        正在为您下载
-        <dot></dot>
-      </p>
-    </template>
-    <div v-else class="flex flex-column flex-ai-center w-100">
+    <div class="flex flex-column flex-ai-center w-100">
       <div class="flex flex-ai-center w-100">
         <div class="flex-1 flex flex-ai-center flex-jc-end">
-          <Button type="primary" class="w-6r" @click="restart">
-            {{ autoError ? '点击重试' : '自动下载' }}
-          </Button>
+          <Checkbox v-model="sysSSR" @on-change="useSysSSR">使用系统ssr-local</Checkbox>
         </div>
         <span class="mx-2">OR</span>
         <div class="flex-1 flex flex-ai-center">
@@ -28,24 +19,14 @@
   </AppView>
 </template>
 <script>
-import { ipcRenderer } from 'electron'
-import { join } from 'path'
 import { mapState, mapMutations } from 'vuex'
-import { ls } from '../store'
 import { openDialog } from '../ipc'
 import { isSSRPathAvaliable } from '../../shared/utils'
-import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'
-import { EVENT_SSR_DOWNLOAD_RENDERER, EVENT_SSR_DOWNLOAD_MAIN } from '../../shared/events'
-import Dot from '../components/Dot'
 
 export default {
   data () {
     return {
-      autoDownload: ls.get(STORE_KEY_AUTO_DOWNLOAD) === '1',
-      // 手动下载
-      manualDownload: false,
-      // 自动模式下载出错
-      autoError: '',
+      sysSSR: false,
       form: {
         ssrPath: '',
       },
@@ -68,48 +49,12 @@ export default {
   computed: {
     ...mapState(['meta']),
   },
-  components: {
-    Dot,
-  },
-  watch: {
-    autoError (v) {
-      if (v) {
-        this.$Message.error({
-          content: v,
-          duration: 0,
-        })
-      } else {
-        this.$Message.destroy()
-      }
-    },
-  },
   methods: {
     ...mapMutations(['updateConfig']),
-    restart () {
-      this.autoError = ''
-      this.autoStart()
-    },
-    // 自动模式
-    autoStart () {
-      this.manualDownload = true
-      this.autoError = ''
-      const self = this
-
-      function callback (e, errMessage) {
-        console.log('download ssr result', e, errMessage)
-        ipcRenderer.removeListener(EVENT_SSR_DOWNLOAD_MAIN, callback)
-        if (errMessage) {
-          self.autoError = errMessage
-        } else {
-          self.$nextTick(() => {
-            // 需要在下载目录后追加shadowsocks子目录
-            self.setup(join(self.meta.defaultSSRDownloadDir, 'shadowsocks'))
-          })
-        }
+    useSysSSR (v) {
+      if (v) {
+        this.setup('/usr/bin')
       }
-
-      ipcRenderer.send(EVENT_SSR_DOWNLOAD_RENDERER)
-      ipcRenderer.on(EVENT_SSR_DOWNLOAD_MAIN, callback)
     },
     // 选择目录
     selectPath () {
@@ -128,7 +73,6 @@ export default {
     },
     // 完成初始化
     setup (ssrPath) {
-      this.$Message.destroy()
       this.updateConfig([{ ssrPath: ssrPath || this.form.ssrPath }, true])
       this.$emit('finished')
     },

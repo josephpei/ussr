@@ -48,7 +48,7 @@ export async function run (appConfig) {
   // 参数
   // const params = [path.join(appConfig.ssrPath, 'local.py')]
   let ssrFile = isWin ? 'ssr-local.exe' : 'ssr-local'
-  const command = path.join(appConfig.ssrPath, ssrFile)
+  const command = appConfig.ssrPath === '/usr/bin' ? ssrFile : path.join(appConfig.ssrPath, ssrFile)
   const params = []
   params.push('-s')
   params.push(config.server)

@@ -18,12 +18,12 @@
         <p>ssr和ussr源代码均开放</p>
       </i-col>
     </Row>
-    <div class="flex flex-ai-center mt-64">
+    <!-- <div class="flex flex-ai-center mt-64">
       <Checkbox v-model="autoDownload" @on-change="updateAutoDownload">自动下载SSR</Checkbox>
       <Tooltip placement="top" content="勾选上后将自动下载python ssr" style="margin-top:2px">
         <Icon color="#495060" type="help-circled"></Icon>
       </Tooltip>
-    </div>
+    </div> -->
     <Button type="primary" class="w-6r mt-1" @click="done">知道了</Button>
   </AppView>
 </template>
