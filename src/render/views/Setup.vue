@@ -59,11 +59,11 @@ export default {
     // 选择目录
     selectPath () {
       this.manualDownload = false
-      const path = openDialog({
+      const ret = openDialog({
         properties: ['openDirectory'],
       })
-      if (path && path.length) {
-        this.form.ssrPath = path[0]
+      if (ret.filePaths && ret.filePaths.length) {
+        this.form.ssrPath = ret.filePaths[0]
         this.$refs.form.validate(valid => {
           if (valid) {
             this.setup()
