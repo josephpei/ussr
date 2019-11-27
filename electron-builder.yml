@@ -1,12 +1,25 @@
 
 appId: io.josephpei.ussr
 productName: ussr
-copyright: Copyright © year Joseph Pei <josephpei@gmail.com>
+copyright: Copyright © 2019 Joseph Pei <josephpei@gmail.com>
 linux:
   synopsis: ussr
-  description: SSR Client
+  description: SSR Electron GUI Client
   target:
     - AppImage
-  maintainer: Joseph Pei
+    - deb
+    - pacman
+  maintainer: Joseph Pei <josephpei@gmail.com>
   category: Network
+  artifactName: ${productName}-${arch}-${version}.${ext}
+  desktop:
+    Name: ussr
+    Icon: ussr.png
 
+pacman:
+  packageCategory: Network
+  compression: xz
+  maintainer: Joseph Pei <josephpei@gmail.com>
+deb:
+  packageCategory: Network
+  maintainer: Joseph Pei <josephpei@gmail.com>
