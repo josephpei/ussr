@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import store from './store'
 import { showNotification, showHtmlNotification } from './notification'
-// import scanQrcode from './qrcode/scan-screenshot'
+import scanQrcode from './qrcode/scan-screenshot'
 import * as events from '../shared/events'
 import { loadConfigsFromString } from '../shared/ssr'
 
@@ -15,17 +15,17 @@ ipcRenderer
   })
   .on(events.EVENT_APP_SCAN_DESKTOP, () => {
     // 扫描二维码
-    // scanQrcode((e, result) => {
-    //   if (e) {
-    //     showNotification('未找到相关二维码', '扫码失败')
-    //   } else {
-    //     const configs = loadConfigsFromString(result)
-    //     if (configs.length) {
-    //       store.dispatch('addConfigs', configs)
-    //       showNotification(`已成功添加${configs.length}条记录`)
-    //     }
-    //   }
-    // })
+    scanQrcode((e, result) => {
+      if (e) {
+        showNotification('未找到相关二维码', '扫码失败')
+      } else {
+        const configs = loadConfigsFromString(result)
+        if (configs.length) {
+          store.dispatch('addConfigs', configs)
+          showNotification(`已成功添加${configs.length}条记录`)
+        }
+      }
+    })
   })
   .on(events.EVENT_APP_SHOW_PAGE, (e, targetView) => {
     // 显示具体某页面

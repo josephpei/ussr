@@ -24,6 +24,7 @@
     "fs-extra": "^7.0.1",
     "http-shutdown": "^1.2.0",
     "iview": "^3.0.1",
+    "jsqr": "^1.2.0",
     "mousetrap": "^1.6.3",
     "qr-image": "^3.2.0",
     "rxjs": "^6.5.2",
