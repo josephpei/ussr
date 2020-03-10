@@ -37,11 +37,13 @@ autoUpdater
 export function versionCheck (oldVersion, newVersion) {
   const oldArr = oldVersion.split('-')
   const newArr = newVersion.split('-')
+  const oldVer = oldArr[0].split('.')
+  const newVer = newArr[0].split('.')
   // 0.11.1 -> 1101
   // 0.9.2 -> 902
   // 1.1.2 -> 10102
-  const oldVersionCount = +oldArr[0] * 10000 + +oldArr[1] * 100 + +oldArr[2]
-  const newVersionCount = +newArr[0] * 10000 + +newArr[1] * 100 + +newArr[2]
+  const oldVersionCount = +oldArr[0] * 10000 + +oldArr[1] * 100 + +oldVer[2]
+  const newVersionCount = +newArr[0] * 10000 + +newArr[1] * 100 + +newVer[2]
   // old vs new
   // 0.1.0 vs 0.1.1
   if (newVersionCount > oldVersionCount) {
