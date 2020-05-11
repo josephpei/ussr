@@ -11,7 +11,7 @@ export const isLinux = platform === 'linux'
 export let isPythonInstalled
 try {
   isPythonInstalled = /^hello$/.test(
-    execSync(`python -c "print('hello')"`)
+    execSync(`python3 -c "print('hello')"`)
       .toString()
       .trim()
   )

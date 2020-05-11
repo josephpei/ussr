@@ -2,6 +2,8 @@
 appId: io.josephpei.ussr
 productName: ussr
 copyright: Copyright © 2019 Joseph Pei <josephpei@gmail.com>
+extraResources:
+  - ssr-n
 linux:
   synopsis: ussr
   description: SSR Electron GUI Client

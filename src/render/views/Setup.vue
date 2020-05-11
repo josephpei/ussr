@@ -3,7 +3,7 @@
     <div class="flex flex-column flex-ai-center w-100">
       <div class="flex flex-ai-center w-100">
         <div class="flex-1 flex flex-ai-center flex-jc-end">
-          <Checkbox v-model="sysSSR" @on-change="useSysSSR">使用系统ssr-local</Checkbox>
+          <Checkbox v-model="sysSSR" @on-change="useSysSSR">使用内置ssr-local</Checkbox>
         </div>
         <span class="mx-2">OR</span>
         <div class="flex-1 flex flex-ai-center">
@@ -53,7 +53,7 @@ export default {
     ...mapMutations(['updateConfig']),
     useSysSSR (v) {
       if (v) {
-        this.setup('/usr/bin')
+        this.setup('builtin')
       }
     },
     // 选择目录
