@@ -8,7 +8,6 @@ import logger from './logger'
 import { isConfigEqual } from '../shared/utils'
 import { showNotification } from './notification'
 import { isWin } from '../shared/env'
-import { fstat, chmodSync } from 'fs'
 let child
 
 /**
@@ -49,16 +48,13 @@ export async function run (appConfig) {
   // 参数
   // const params = [path.join(appConfig.ssrPath, 'local.py')]
   let ssrFile = isWin ? 'ssr-local.exe' : 'ssr-local'
-  var ssrPath = ''
+  let ssrPath
   if (appConfig.ssrPath !== 'builtin') {
     ssrPath = appConfig.ssrPath
   } else {
     ssrPath = path.join(process.env.NODE_ENV === 'development' ? '.' : process.resourcesPath, 'ssr-n')
   }
   const command = path.join(ssrPath, ssrFile)
-  if (!isWin && appConfig.ssrPath === 'builtin') {
-    chmodSync(command, 0o755)
-  }
   const params = []
   params.push('-s')
   params.push(config.server)
