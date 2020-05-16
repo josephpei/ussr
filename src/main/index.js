@@ -30,12 +30,14 @@ if (!singleLock) {
     _window.focus()
   }
   // 如果是通过链接打开的应用，则添加记录
-  // if (argv[1]) {
-  //   const configs = loadConfigsFromString(argv[1])
-  //   if (configs.length) {
-  //     addConfigs(configs)
-  //   }
-  // }
+  app.on('second-instance', (e, argv, workingDirectory) => {
+    if (argv[1]) {
+      const configs = loadConfigsFromString(argv[1])
+      if (configs.length) {
+        addConfigs(configs)
+      }
+    }
+  })
 }
 
 bootstrap.then(() => {
