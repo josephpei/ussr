@@ -332,7 +332,7 @@ export function isSubscribeContentValid (content) {
   } else {
     const groupConfigs = {}
     configs.forEach(config => {
-      if (groupConfigs.hasOwnProperty(config.group)) {
+      if (Object.prototype.hasOwnProperty.call(groupConfigs, config.group)) {
         groupConfigs[config.group].push(config)
       } else {
         groupConfigs[config.group] = [config]

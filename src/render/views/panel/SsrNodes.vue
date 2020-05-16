@@ -132,7 +132,7 @@ export default {
     },
   },
   watch: {
-    'appConfig.index' (v) {
+    'appConfig.index' () {
       if (preventIndexAffect) {
         preventIndexAffect = false
       } else {
@@ -156,10 +156,39 @@ export default {
     // 复制节点并带上title和选中参数
     cloneConfig (config, selected) {
       return {
-        title: `${config.remarks || config.server} (${config.server}:${config.server_port})`,
+        title: `${config.emoji || ''}${config.remarks || config.server} (${config.server}:${config.server_port})`,
         selected,
         ...config,
       }
+    },
+    treeRender (h, { data }) {
+      if (this.appConfig && this.appConfig.configs && this.appConfig.configs.length &&
+        data.id !== this.selectedConfigId &&
+        data.id === this.appConfig.configs[this.appConfig.index].id)
+        return h('span', {
+          style: {
+            display: 'inline-block',
+            width: '100%'
+          }
+        }, [
+          h('span', {
+            style: {
+              background: '#5c8cbd',
+            }
+          }, [
+            h('span', '[√] '),
+            h('span', data.title)
+          ])
+        ])
+      else
+        return h('span', {
+          style: {
+            display: 'inline-block',
+            width: '100%'
+          }
+        }, [
+          h('span', data.title)
+        ])
     },
     // 设置节点选中状态
     setSelected (group, config) {

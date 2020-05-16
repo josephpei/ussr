@@ -31,6 +31,7 @@ export default class Config {
     this.obfsparam = ''
     this.remarks = ''
     this.group = ''
+    this.emoji = ''
     merge(this, config)
     this.id = generateID()
     this.enable = true
