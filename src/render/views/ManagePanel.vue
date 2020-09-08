@@ -1,5 +1,5 @@
 <template>
-  <AppView name="panel" class="px-2 py-2" row>
+  <AppView name="panel" class="bg-primary px-2 py-2" row>
     <SsrNodes></SsrNodes>
     <SsrFrom class="flex-1 mx-1"></SsrFrom>
     <SsrGroup v-show="editingGroup.show && editingGroup.title" class="flex-1 ml-1"></SsrGroup>

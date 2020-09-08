@@ -32,6 +32,7 @@
         <template slot="append">
           <Tooltip :content="copyTooltip" placement="top-end" :delay="300">
             <Button
+              class="ivu-btn-icon-copy"
               icon="ios-copy"
               @click="copyLink"
               @mouseover.native="onCopyOver"
@@ -45,6 +46,9 @@
       <Button class="w-6r" type="info" @click="gotoOptions">参数设置</Button>
       <!-- <Button class="w-6r" type="default" @click="cancel">取消</Button>
       <Button class="w-6r ml-3" type="primary" @click="save">确定</Button> -->
+    </div>
+    <div class="flex-as-end pos-r">
+      <span class="text-sub-title">DarkMode: </span><i-switch size="small" v-model="isDark" @on-change="changeTheme" />
     </div>
   </div>
 </template>
@@ -74,7 +78,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['appConfig', 'editingConfig']),
+    ...mapState(['appConfig', 'editingConfig', 'theme']),
     ...mapGetters(['isEditingConfigUpdated']),
     editingConfigLink () {
       return this.isSSR ? this.editingConfig.getSSRLink() : this.editingConfig.getSSLink()
@@ -82,6 +86,14 @@ export default {
     editingConfigQR () {
       return qr.svgObject(this.editingConfigLink)
     },
+    isDark: {
+      get: function () {
+        return this.theme == 'dark'
+      },
+      set: function () {
+
+      }
+    }
   },
   directives: {
     clickoutside,
@@ -164,6 +176,10 @@ export default {
         window.alert('服务器配置信息不完整')
       }
     },
+    changeTheme (status) {
+      const theme = status ? 'dark' : 'light'
+      this.$store.commit('updateTheme', theme)
+    }
   },
 }
 </script>
@@ -173,15 +189,16 @@ export default {
 .app-qrcode
   .tip
     line-height 0
-    color $color-sub-title
+    color $color-text
   .contextmenu
+    color $color-text
     position absolute
     display block
     margin 0
     padding 2px 0
     min-width 6rem
     list-style none
-    background-color #fff
+    background-color #color-context-bg
     box-shadow 2px 2px 4px rgba(0, 0, 0, 0.5)
     z-index 999
     li

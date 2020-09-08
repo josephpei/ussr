@@ -18,6 +18,7 @@ import {
   STORE_KEY_SSR_METHODS,
   STORE_KEY_SSR_PROTOCOLS,
   STORE_KEY_SSR_OBFSES,
+  STORE_KEY_WIN_THEME,
 } from './constants'
 import Store from 'electron-store'
 
@@ -44,6 +45,7 @@ const featureReaded = !!ls.get(STORE_KEY_FEATURE)
 const storedMethods = ls.get(STORE_KEY_SSR_METHODS)
 const storedProtocols = ls.get(STORE_KEY_SSR_PROTOCOLS)
 const storedObfses = ls.get(STORE_KEY_SSR_OBFSES)
+const storedTheme = ls.get(STORE_KEY_WIN_THEME)
 
 let methods
 let protocols
@@ -121,6 +123,7 @@ export default new Vuex.Store({
       // 是否激活当前页面的主要操作
       active: false,
     },
+    theme: storedTheme,
     editingConfig,
     // 备份当前选中的配置项
     editingConfigBak: new Config(),
@@ -149,6 +152,11 @@ export default new Vuex.Store({
     updateMeta (state, targetMeta) {
       merge(state.meta, targetMeta)
       console.log('meta updated: ', targetMeta)
+    },
+    // 更改窗口主题
+    updateTheme (state, theme) {
+      ls.set(STORE_KEY_WIN_THEME, theme)
+      state.theme = theme
     },
     // 更改页面视图
     updateView (state, targetView) {

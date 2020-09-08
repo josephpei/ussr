@@ -6,6 +6,7 @@
       empty-text="暂无节点，点击添加添加新节点"
       :enable-cancel-select="false"
       :data="groupedNodes"
+      :render="treeRender"
       @on-select-change="onSelect"
       @on-dbclick-node="onNodeDBClick"
       ref="tree"

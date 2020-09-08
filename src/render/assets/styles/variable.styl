@@ -2,7 +2,24 @@
  * 变量定义
  */
 // 主色调
-$color-primary = #2d8cf0
+[class="light"] {
+  --primary-color: #2d8cf0;
+  --context-bg: #f1f1f1;
+  --color-sub-title: #80848f;
+  --color-text: #000;
+}
+
+[class="dark"] {
+  --primary-color: #296eb3;
+  --context-bg: #363e4f;
+  --color-sub-title: #4e4e4e;
+  --color-text: #fff;
+}
+
+
+// 主色调
+$color-primary = var(--primary-color)
+$color-context-bg = var(--context-bg)
 $color-light-primary = #5cadff
 $color-dark-primary = #2b85e4
 

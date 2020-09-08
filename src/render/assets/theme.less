@@ -1,0 +1,307 @@
+@import '~view-design/src/styles/index';
+
+.themify(@primaryColor: #2d8cf0) {
+  @primary-color: #296eb3;
+  @info-color: #5c8cbd;
+  @body-background: #181f25;
+  @component-background: #181f25;
+  @context-background: #363e4f;
+  @border-color: #202932;
+  @input-placeholder-color: #4e4e4e;
+  @btn-default-bg: #565656;
+  @btn-disable-bg: #132f47;
+  @table-thead-bg: #171717;
+  @table-td-stripe-bg: #353535;
+  @table-td-hover-bg: #75818a;
+  @table-td-highlight-bg: #5d89a7;
+  @text-color: #fff;
+  @selected-color: fade(@primary-color, 90%);
+
+  body {
+    font-size: @font-size-small;
+  }
+  fieldset {
+    border-color: @border-color;
+  }
+
+  .ivu-form-item-label,
+  .ivu-input, .ivu-input-number,
+  .ivu-checkbox,
+  .ivu-tree-title {
+    font-size: @font-size-small;
+  }
+  .ivu-select {
+    font-size: @font-size-small;
+    &-item {
+      font-size: @font-size-small;
+    }
+    &-selection {
+      font-size: @font-size-small;
+      .ivu-select-placeholder {
+        font-size: @font-size-small;
+      }
+    }
+  }
+
+  // :not([class*="-text"]) {
+  //     background-color: @body-background;
+  // }
+  ::-webkit-scrollbar-thumb {
+    background-color: #363e4f;
+    border-radius: 4px;
+    &:hover {
+      background-color: #808695;
+      border-color: @border-color;
+    }
+  }
+
+  .placeholder(@input-placeholder-color);
+
+  .bg-primary {
+    background-color: @component-background;
+  }
+
+  .ivu-alert {
+    background-color: @component-background;
+    border-color: @border-color;
+    color: @text-color;
+  }
+
+  .ivu-tag {
+    background-color: @component-background;
+    border-color: @border-color;
+    color: @text-color;
+  }
+
+  .ivu-btn {
+    background-color: @btn-default-bg;
+    color: @text-color;
+    border-color: @border-color;
+    &:hover {
+      color: tint(@text-color, 20%);
+      background-color: fade(tint(@btn-default-bg, 95%), 20%);
+      border-color: @border-color;
+    }
+
+    &-primary {
+      .btn-color(@primary-color);
+      &[disabled] {
+        background-color: @btn-disable-bg;
+        border-color: @border-color;
+        &:hover {
+          background-color: fade(tint(@btn-disable-bg, 95%), 20%);
+          border-color: @border-color;
+        }
+      }
+    }
+
+    &-text {
+      background-color: @primary-color;
+      color: @title-color;
+    }
+
+    &-info {
+      .btn-color(@info-color);
+    }
+  }
+
+  .ivu-btn-icon-copy {
+    display: inline-block;
+    // padding: 5px 15px 6px;
+    border-radius: 0px;
+    background-color: @component-background;
+    border-color: @border-color;
+    &:hover {
+      background-color: tint(@component-background, 20%);
+    }
+  }
+
+  .ivu-dropdown-item {
+    background-color: #363e4f;
+    color: @text-color;
+    &:hover {
+      background-color: tint(#363e4f, 20%);
+    }
+  }
+
+  .ivu-form-item-label {
+    color: @text-color;
+  }
+
+  .ivu-checkbox {
+    &-inner {
+      border-color: @border-color;
+      background-color: @context-background;
+    }
+  }
+
+  .ivu-checkbox-checked {
+    .ivu-checkbox-inner {
+      border-color: @border-color;
+      background-color: @primaryColor;
+    }
+  }
+
+  .ivu-input-number {
+    border-color: @border-color;
+    background-color: @component-background;
+
+    &-input {
+      background-color: @component-background;
+      color: @text-color;
+    }
+
+    &-handler-wrap {
+      border-left: 1px solid @component-background;
+      background: @component-background;
+    }
+
+    &-handler-up {
+      background-color: tint(@component-background, 20%);
+      border-color: @border-color;
+    }
+    &-handler-down {
+      background-color: tint(@component-background, 20%);
+      border-color: @border-color;
+    }
+  }
+
+  .ivu-input {
+    background-color: @component-background;
+    color: @text-color;
+    border-color: @border-color;
+    &:hover {
+      border-color: @primary-color;
+    }
+    &::placeholder {
+      color: @input-placeholder-color;
+    }
+  }
+
+  .ivu-select {
+    color: @text-color;
+    &-selection {
+      background-color: @component-background;
+      border-color: @border-color;
+      &:hover {
+        background-color: tint(@component-background, 20%);
+        border-color: @primary-color;
+      }
+      .ivu-select-placeholder {
+        color: @input-placeholder-color;
+      }
+    }
+    &-dropdown,
+    &-dropdown-list {
+      background-color: @context-background;
+    }
+    &-item {
+      background-color: @context-background;
+      color: @text-color;
+      &-selected {
+        color: @selected-color;
+      }
+      &:hover {
+        background-color: @component-background;
+      }
+    }
+  }
+
+  .ivu-switch {
+    &-checked {
+      border-color: @info-color;
+      background-color: @info-color;
+    }
+  }
+
+  .ivu-tree {
+    background-color: @component-background;
+    border-color: @border-color;
+    &-title {
+      color: @text-color;
+      &:hover {
+        background-color: fade(@primary-color, 90%);
+      }
+      &-selected,
+      &-selected:hover {
+        background-color: fade(@primary-color, 80%);
+      }
+    }
+  }
+
+  .ivu-tabs {
+    &-ink-bar {
+      background-color: @primary-color;
+    }
+    &-bar {
+      border-bottom: 1px solid @border-color;
+    }
+  }
+
+  .ivu-table {
+    background-color: @component-background;
+    border-color: @border-color;
+    color: @text-color;
+    th {
+      background-color: @table-thead-bg;
+      border-color: @border-color;
+    }
+    td {
+      background-color: @component-background;
+      border-color: @border-color;
+    }
+    &-wrapper {
+      border: 1px solid @border-color;
+    }
+    &:before {
+      background-color: @component-background;
+    }
+    &:after {
+      background-color: @component-background;
+    }
+    &-body {
+      tr:nth-child(2n) {
+        td {
+          background-color: @table-td-stripe-bg;
+        }
+      }
+      // #1380
+      tr.ivu-table-row-hover {
+        td {
+          background-color: @table-td-hover-bg;
+        }
+      }
+    }
+    tr&-row-hover {
+      td {
+        background-color: @table-td-hover-bg;
+      }
+    }
+
+  }
+}
+
+.dark {
+  .themify(#2963b3);
+}
+
+.light {
+  .ivu-form-item-label,
+  .ivu-input, .ivu-input-number,
+  .ivu-checkbox,
+  .ivu-tree-title {
+    font-size: @font-size-small;
+  }
+  .ivu-select {
+    font-size: @font-size-small;
+    &-item {
+      font-size: @font-size-small;
+    }
+    &-selection {
+      font-size: @font-size-small;
+      .ivu-select-placeholder {
+        font-size: @font-size-small;
+      }
+    }
+  }
+}

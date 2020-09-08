@@ -10,3 +10,5 @@ export const STORE_KEY_SSR_PROTOCOLS = 'ssr.protocols'
 export const STORE_KEY_SSR_OBFSES = 'ssr.obfses'
 // ssr配置页面提示标语
 export const STORE_KEY_SSR_TIP = 'ssr.tip'
+// 窗口主题
+export const STORE_KEY_WIN_THEME = 'win.theme'
