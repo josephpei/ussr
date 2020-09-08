@@ -7,7 +7,7 @@ import jsQR from 'jsqr'
  * @param callback {Function} callback receives as first parameter the base64 string of the image
  * @param imageFormat {String} Format of the image to generate ('image/jpeg' or 'image/png')
  **/
-export default function scanQrcode (callback, imageFormat = 'image/png') {
+export default function scanQrcode (callback) {
   // Filter only screen type
   desktopCapturer.getSources({ types: ['screen'] }, (error, sources) => {
     if (error) throw error
@@ -70,7 +70,9 @@ export default function scanQrcode (callback, imageFormat = 'image/png') {
       try {
         // Destroy connect to stream
         stream.getTracks()[0].stop()
-      } catch (e) {}
+      } catch (e) {
+        // error
+      }
     }
     if ('srcObject' in video) {
       video.srcObject = stream
